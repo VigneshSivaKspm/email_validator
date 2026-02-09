@@ -1,0 +1,205 @@
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useApp, EmailVerification } from '../context/AppContext';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import { Progress } from '../components/ui/progress';
+import { Button } from '../components/ui/button';
+import { CheckCircle2, XCircle, AlertTriangle, HelpCircle, Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
+
+export const BulkProcessPage = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const { bulkUploads, verifyEmail } = useApp();
+  const [processing, setProcessing] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [results, setResults] = useState<EmailVerification[]>([]);
+
+  const upload = bulkUploads.find(u => u.id === id);
+
+  // Mock email list from file
+  const mockEmails = [
+    'john.doe@gmail.com',
+    'invalid.email@',
+    'admin@company.com',
+    'test@tempmail.com',
+    'sarah@example.com',
+    'support@business.org',
+    'user@fakeemail.xyz',
+    'mary.smith@outlook.com',
+    'noreply@service.com',
+    'contact@startup.io',
+  ];
+
+  const processEmails = async () => {
+    setProcessing(true);
+    const emailResults: EmailVerification[] = [];
+
+    for (let i = 0; i < mockEmails.length; i++) {
+      const email = mockEmails[i];
+      
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      try {
+        const result = await verifyEmail(email);
+        emailResults.push(result);
+        setResults([...emailResults]);
+        setProgress(((i + 1) / mockEmails.length) * 100);
+      } catch (error) {
+        console.error('Error verifying:', email);
+      }
+    }
+
+    setProcessing(false);
+    toast.success('Bulk verification completed!');
+  };
+
+  useEffect(() => {
+    if (upload && !processing && results.length === 0) {
+      processEmails();
+    }
+  }, [upload]);
+
+  if (!upload) {
+    return (
+      <div className="p-8 text-center">
+        <p className="text-gray-600">Upload not found</p>
+        <Button onClick={() => navigate('/dashboard/bulk')} className="mt-4">
+          Back to Upload
+        </Button>
+      </div>
+    );
+  }
+
+  const validCount = results.filter(r => r.status === 'valid').length;
+  const invalidCount = results.filter(r => r.status === 'invalid').length;
+  const riskyCount = results.filter(r => r.status === 'risky').length;
+  const unknownCount = results.filter(r => r.status === 'unknown').length;
+
+  return (
+    <div className="p-8 max-w-6xl mx-auto space-y-8">
+      {/* Header */}
+      <div>
+        <h1 className="text-3xl mb-2">Processing: {upload.filename}</h1>
+        <p className="text-gray-600">
+          Verifying {mockEmails.length} email addresses
+        </p>
+      </div>
+
+      {/* Progress */}
+      <Card className="border-[#E5E7EB]">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-3">
+            {processing ? (
+              <>
+                <Loader2 className="w-6 h-6 animate-spin text-[#2563EB]" />
+                Processing...
+              </>
+            ) : (
+              <>
+                <CheckCircle2 className="w-6 h-6 text-green-600" />
+                Completed
+              </>
+            )}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div>
+            <div className="flex justify-between mb-2">
+              <span className="text-sm text-muted-foreground">Progress</span>
+              <span className="text-sm font-medium">{Math.round(progress)}%</span>
+            </div>
+            <Progress value={progress} className="h-3" />
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4">
+            <div className="text-center p-4 rounded-lg bg-accent/30">
+              <div className="text-2xl font-bold text-gray-900">{results.length}</div>
+              <div className="text-sm text-muted-foreground">Processed</div>
+            </div>
+            <div className="text-center p-4 rounded-lg bg-accent/30">
+              <div className="text-2xl font-bold text-gray-900">
+                {mockEmails.length - results.length}
+              </div>
+              <div className="text-sm text-muted-foreground">Remaining</div>
+            </div>
+            <div className="text-center p-4 rounded-lg bg-accent/30">
+              <div className="text-2xl font-bold text-gray-900">{mockEmails.length}</div>
+              <div className="text-sm text-muted-foreground">Total</div>
+            </div>
+            <div className="text-center p-4 rounded-lg bg-accent/30">
+              <div className="text-2xl font-bold text-gray-900">
+                {results.length > 0 ? ((validCount / results.length) * 100).toFixed(0) : 0}%
+              </div>
+              <div className="text-sm text-muted-foreground">Success Rate</div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Status Breakdown */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Card className="border-[#E5E7EB] border-l-4 border-l-green-500">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Valid</p>
+                <p className="text-3xl font-bold text-green-600">{validCount}</p>
+              </div>
+              <CheckCircle2 className="w-10 h-10 text-green-600 opacity-20" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-[#E5E7EB] border-l-4 border-l-red-500">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Invalid</p>
+                <p className="text-3xl font-bold text-red-600">{invalidCount}</p>
+              </div>
+              <XCircle className="w-10 h-10 text-red-600 opacity-20" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-[#E5E7EB] border-l-4 border-l-amber-500">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Risky</p>
+                <p className="text-3xl font-bold text-amber-600">{riskyCount}</p>
+              </div>
+              <AlertTriangle className="w-10 h-10 text-amber-600 opacity-20" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-[#E5E7EB] border-l-4 border-l-gray-500">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Unknown</p>
+                <p className="text-3xl font-bold text-gray-600">{unknownCount}</p>
+              </div>
+              <HelpCircle className="w-10 h-10 text-gray-600 opacity-20" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Action Button */}
+      {!processing && results.length === mockEmails.length && (
+        <div className="flex justify-center">
+          <Button
+            size="lg"
+            onClick={() => navigate(`/dashboard/bulk/results/${id}`)}
+            className="bg-[#2563EB] hover:bg-[#1E3A8A]"
+          >
+            View Detailed Results
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+};

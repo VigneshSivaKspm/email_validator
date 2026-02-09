@@ -1,0 +1,83 @@
+import React, { useState } from 'react';
+import { useApp } from '../context/AppContext';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import { EmailInput } from '../components/EmailInput';
+import { VerificationResult } from '../components/VerificationResult';
+import { EmailVerification } from '../context/AppContext';
+import { toast } from 'sonner';
+
+export const VerifyEmailPage = () => {
+  const { verifyEmail, user } = useApp();
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<EmailVerification | null>(null);
+
+  const handleVerify = async (email: string) => {
+    if (!user) {
+      toast.error('Please log in to verify emails');
+      return;
+    }
+
+    if (user.usedQuota >= user.monthlyQuota) {
+      toast.error('Monthly quota exceeded! Please upgrade your plan.');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const verification = await verifyEmail(email);
+      setResult(verification);
+      toast.success('Email verified successfully!');
+    } catch (error) {
+      toast.error('Failed to verify email');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="p-8 max-w-4xl mx-auto space-y-8">
+      {/* Header */}
+      <div>
+        <h1 className="text-3xl mb-2">Single Email Verification</h1>
+        <p className="text-gray-600">
+          Verify individual email addresses in real-time with detailed results
+        </p>
+      </div>
+
+      {/* Verification Input */}
+      <Card className="border-[#E5E7EB]">
+        <CardHeader>
+          <CardTitle>Enter Email to Verify</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <EmailInput onVerify={handleVerify} loading={loading} />
+        </CardContent>
+      </Card>
+
+      {/* Result */}
+      {result && (
+        <div className="space-y-4">
+          <h2 className="text-2xl">Verification Result</h2>
+          <VerificationResult result={result} />
+        </div>
+      )}
+
+      {/* Info */}
+      {!result && (
+        <Card className="border-[#E5E7EB] bg-blue-50/50">
+          <CardContent className="p-6">
+            <h3 className="font-semibold mb-2 text-[#1E3A8A]">How it works</h3>
+            <ul className="space-y-2 text-sm text-gray-700">
+              <li>• Format validation checks email syntax</li>
+              <li>• Domain verification ensures the domain exists</li>
+              <li>• MX record lookup confirms mail server configuration</li>
+              <li>• Disposable email detection filters temporary addresses</li>
+              <li>• Role-based detection identifies generic mailboxes</li>
+              <li>• Catch-all detection flags risky domains</li>
+            </ul>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+};
