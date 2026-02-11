@@ -34,15 +34,15 @@ export const UserDashboard = () => {
   const quotaPercentage = user ? (user.usedQuota / user.monthlyQuota) * 100 : 0;
 
   return (
-    <div className="p-8 space-y-8 overflow-hidden">
+    <div className="p-4 sm:p-8 space-y-6 sm:space-y-8 overflow-hidden max-w-7xl mx-auto">
       {/* Welcome Header */}
       <div data-aos="fade-down">
-        <h1 className="text-3xl mb-2">Welcome back, {user?.name}!</h1>
-        <p className="text-gray-600">Here's your email verification overview</p>
+        <h1 className="text-2xl sm:text-3xl font-bold mb-2 text-[#1E3A8A]">Welcome back, {user?.name}!</h1>
+        <p className="text-gray-600 text-sm sm:text-base">Here's your email verification overview</p>
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" data-aos="fade-up">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6" data-aos="fade-up">
         <KPICard
           title="Current Plan"
           value={user?.plan.charAt(0).toUpperCase() + user?.plan.slice(1) || 'Free'}
@@ -173,16 +173,18 @@ export const UserDashboard = () => {
               {verificationHistory.slice(0, 5).map((verification, idx) => (
                 <div 
                   key={verification.id} 
-                  className="flex items-center justify-between p-4 rounded-lg bg-accent/30 hover:bg-accent/50 transition-colors"
+                  className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl bg-white border border-[#F1F5F9] hover:border-[#E2E8F0] hover:shadow-md transition-all gap-3 sm:gap-4"
                   data-aos="fade-left"
                   data-aos-delay={idx * 50}
                 >
-                  <div className="flex items-center gap-3 flex-1">
-                    <Mail className="w-4 h-4 text-muted-foreground" />
-                    <span className="font-medium">{verification.email}</span>
+                  <div className="flex items-center gap-3 flex-1 min-w-0">
+                    <div className="p-2 bg-blue-50 text-blue-600 rounded-lg shrink-0">
+                      <Mail className="w-4 h-4" />
+                    </div>
+                    <span className="font-semibold text-gray-900 truncate">{verification.email}</span>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <span className="text-sm text-muted-foreground">
+                  <div className="flex items-center justify-between sm:justify-start gap-4 ml-11 sm:ml-0">
+                    <span className="text-sm text-gray-500 font-medium">
                       {verification.timestamp.toLocaleDateString()}
                     </span>
                     <StatusBadge status={verification.status} />

@@ -9,11 +9,12 @@ import {
   Users, 
   FileText, 
   BarChart3,
-  ShieldCheck
+  ShieldCheck,
+  X
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
-export const DashboardSidebar = () => {
+export const DashboardSidebar = ({ onClose }: { onClose?: () => void }) => {
   const location = useLocation();
   const { user } = useApp();
   const isAdmin = user?.role === 'admin';
@@ -37,20 +38,32 @@ export const DashboardSidebar = () => {
   const links = isAdmin ? adminLinks : userLinks;
 
   return (
-    <div className="w-64 bg-white border-r border-[#E5E7EB] min-h-screen p-6">
-      {/* Logo */}
-      <Link to={isAdmin ? '/admin' : '/dashboard'} className="flex items-center gap-2 mb-8">
-        <div className="w-10 h-10 bg-gradient-to-br from-[#2563EB] to-[#1E3A8A] rounded-xl flex items-center justify-center">
-          <ShieldCheck className="w-6 h-6 text-white" />
-        </div>
-        <div>
-          <div className="text-lg font-bold text-[#1E3A8A]">VerifyMail</div>
-          {isAdmin && <div className="text-xs text-gray-500">Admin Panel</div>}
-        </div>
-      </Link>
+    <div className="w-64 bg-white border-r border-[#E5E7EB] h-full flex flex-col p-6 shadow-xl lg:shadow-none">
+      {/* Logo & Close Button */}
+      <div className="flex items-center justify-between mb-8">
+        <Link 
+          to={isAdmin ? '/admin' : '/dashboard'} 
+          className="flex items-center gap-2"
+          onClick={onClose}
+        >
+          <div className="w-10 h-10 bg-gradient-to-br from-[#2563EB] to-[#1E3A8A] rounded-xl flex items-center justify-center">
+            <ShieldCheck className="w-6 h-6 text-white" />
+          </div>
+          <div>
+            <div className="text-lg font-bold text-[#1E3A8A]">VerifyMail</div>
+            {isAdmin && <div className="text-xs text-gray-500 font-medium">Admin Panel</div>}
+          </div>
+        </Link>
+        <button 
+          onClick={onClose}
+          className="lg:hidden p-2 -mr-2 text-gray-400 hover:text-gray-600 transition-colors"
+        >
+          <X className="w-6 h-6" />
+        </button>
+      </div>
 
       {/* Navigation */}
-      <nav className="space-y-1">
+      <nav className="space-y-1 flex-1">
         {links.map((link) => {
           const Icon = link.icon;
           const isActive = location.pathname === link.to;
@@ -59,6 +72,7 @@ export const DashboardSidebar = () => {
             <Link
               key={link.to}
               to={link.to}
+              onClick={onClose}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
                 isActive
                   ? 'bg-[#2563EB] text-white shadow-lg shadow-blue-500/20'
@@ -75,21 +89,21 @@ export const DashboardSidebar = () => {
       {/* Quota Display (for users) */}
       {!isAdmin && user && (
         <div className="mt-8 p-4 bg-[#F8FAFC] rounded-xl border border-[#E5E7EB]">
-          <div className="text-xs text-gray-600 mb-2">Monthly Quota</div>
+          <div className="text-xs text-gray-600 mb-2 font-medium uppercase tracking-wider">Monthly Quota</div>
           <div className="flex items-baseline gap-1 mb-2">
             <span className="text-2xl font-bold text-[#1E3A8A]">
-              {user.monthlyQuota - user.usedQuota}
+              {(user.monthlyQuota - user.usedQuota).toLocaleString()}
             </span>
-            <span className="text-sm text-gray-500">/ {user.monthlyQuota}</span>
+            <span className="text-sm text-gray-400 font-medium">/ {user.monthlyQuota.toLocaleString()}</span>
           </div>
-          <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+          <div className="w-full h-2.5 bg-gray-200 rounded-full overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-[#2563EB] to-[#1E3A8A]"
-              style={{ width: `${(user.usedQuota / user.monthlyQuota) * 100}%` }}
+              className="h-full bg-gradient-to-r from-[#2563EB] to-[#60A5FA]"
+              style={{ width: `${Math.min(100, (user.usedQuota / user.monthlyQuota) * 100)}%` }}
             />
           </div>
-          <div className="text-xs text-gray-500 mt-2">
-            {user.usedQuota} verifications used
+          <div className="text-xs text-gray-500 mt-2 font-medium">
+            {user.usedQuota.toLocaleString()} verifications used
           </div>
         </div>
       )}

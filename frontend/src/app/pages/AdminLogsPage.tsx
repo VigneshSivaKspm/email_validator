@@ -39,15 +39,15 @@ export const AdminLogsPage = () => {
   };
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-8">
+    <div className="p-4 sm:p-8 max-w-7xl mx-auto space-y-6 sm:space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl mb-2">System Logs</h1>
-        <p className="text-gray-600">Monitor all email verification activities</p>
+        <h1 className="text-2xl sm:text-3xl font-bold mb-2 text-[#1E3A8A]">System Logs</h1>
+        <p className="text-gray-600 text-sm sm:text-base">Monitor all email verification activities</p>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <Card className="border-[#E5E7EB]">
           <CardContent className="p-6 text-center">
             <div className="text-3xl font-bold text-gray-900 mb-1">
@@ -87,8 +87,8 @@ export const AdminLogsPage = () => {
 
       {/* Filters */}
       <Card className="border-[#E5E7EB]">
-        <CardContent className="p-6">
-          <div className="flex flex-col md:flex-row gap-4">
+        <CardContent className="p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
@@ -98,42 +98,42 @@ export const AdminLogsPage = () => {
                 className="pl-10"
               />
             </div>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-full md:w-48">
-                <SelectValue placeholder="Filter by status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="valid">Valid</SelectItem>
-                <SelectItem value="invalid">Invalid</SelectItem>
-                <SelectItem value="risky">Risky</SelectItem>
-                <SelectItem value="unknown">Unknown</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select value={userFilter} onValueChange={setUserFilter}>
-              <SelectTrigger className="w-full md:w-48">
-                <SelectValue placeholder="Filter by user" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Users</SelectItem>
-                {allUsers.map(user => (
-                  <SelectItem key={user.id} value={user.id}>
-                    {user.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <div className="grid grid-cols-2 sm:flex gap-4">
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger className="w-full sm:w-48">
+                  <SelectValue placeholder="Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Status</SelectItem>
+                  <SelectItem value="valid">Valid</SelectItem>
+                  <SelectItem value="invalid">Invalid</SelectItem>
+                  <SelectItem value="risky">Risky</SelectItem>
+                  <SelectItem value="unknown">Unknown</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select value={userFilter} onValueChange={setUserFilter} >
+                <SelectTrigger className="w-full sm:w-48">
+                  <SelectValue placeholder="User" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Users</SelectItem>
+                  {allUsers.map(user => (
+                    <SelectItem key={user.id} value={user.id}>{user.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </CardContent>
       </Card>
 
       {/* Logs Table */}
       <Card className="border-[#E5E7EB]">
-        <CardHeader>
+        <CardHeader className="px-4 sm:px-6">
           <CardTitle>Verification Logs ({filteredLogs.length})</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="rounded-lg border border-[#E5E7EB] overflow-hidden">
+        <CardContent className="p-0 sm:p-6 sm:pt-0">
+          <div className="rounded-lg border border-[#E5E7EB] overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow className="bg-accent/30">

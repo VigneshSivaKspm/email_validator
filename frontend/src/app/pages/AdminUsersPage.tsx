@@ -53,15 +53,15 @@ export const AdminUsersPage = () => {
   };
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-8">
+    <div className="p-4 sm:p-8 max-w-7xl mx-auto space-y-6 sm:space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl mb-2">User Management</h1>
-        <p className="text-gray-600">Manage user accounts and permissions</p>
+        <h1 className="text-2xl sm:text-3xl font-bold mb-2 text-[#1E3A8A]">User Management</h1>
+        <p className="text-gray-600 text-sm sm:text-base">Manage user accounts and permissions</p>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <Card className="border-[#E5E7EB]">
           <CardContent className="p-6 text-center">
             <div className="text-3xl font-bold text-gray-900 mb-1">{allUsers.length}</div>
@@ -99,8 +99,8 @@ export const AdminUsersPage = () => {
 
       {/* Filters */}
       <Card className="border-[#E5E7EB]">
-        <CardContent className="p-6">
-          <div className="flex flex-col md:flex-row gap-4">
+        <CardContent className="p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
@@ -111,7 +111,7 @@ export const AdminUsersPage = () => {
               />
             </div>
             <Select value={planFilter} onValueChange={setPlanFilter}>
-              <SelectTrigger className="w-full md:w-48">
+              <SelectTrigger className="w-full sm:w-48">
                 <SelectValue placeholder="Filter by plan" />
               </SelectTrigger>
               <SelectContent>
@@ -127,11 +127,11 @@ export const AdminUsersPage = () => {
 
       {/* Users Table */}
       <Card className="border-[#E5E7EB]">
-        <CardHeader>
+        <CardHeader className="px-4 sm:px-6">
           <CardTitle>Users ({filteredUsers.length})</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="rounded-lg border border-[#E5E7EB] overflow-hidden">
+        <CardContent className="p-0 sm:p-6 sm:pt-0">
+          <div className="rounded-lg border border-[#E5E7EB] overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow className="bg-accent/30">

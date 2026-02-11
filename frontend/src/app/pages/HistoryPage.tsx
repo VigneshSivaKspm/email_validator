@@ -71,23 +71,23 @@ export const HistoryPage = () => {
   };
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-8">
+    <div className="p-4 sm:p-8 max-w-7xl mx-auto space-y-6 sm:space-y-8">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl mb-2">Verification History</h1>
-          <p className="text-gray-600">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2 text-[#1E3A8A]">Verification History</h1>
+          <p className="text-gray-600 text-sm sm:text-base">
             View and manage your past email verifications
           </p>
         </div>
-        <Button onClick={handleExport} variant="outline">
+        <Button onClick={handleExport} variant="outline" className="w-full sm:w-auto">
           <Download className="w-4 h-4 mr-2" />
-          Export
+          Export CSV
         </Button>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <Card className="border-[#E5E7EB]">
           <CardContent className="p-6 text-center">
             <div className="text-3xl font-bold text-gray-900 mb-1">
@@ -127,8 +127,8 @@ export const HistoryPage = () => {
 
       {/* Filters */}
       <Card className="border-[#E5E7EB]">
-        <CardContent className="p-6">
-          <div className="flex flex-col md:flex-row gap-4">
+        <CardContent className="p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
@@ -138,39 +138,41 @@ export const HistoryPage = () => {
                 className="pl-10"
               />
             </div>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-full md:w-48">
-                <SelectValue placeholder="Filter by status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="valid">Valid</SelectItem>
-                <SelectItem value="invalid">Invalid</SelectItem>
-                <SelectItem value="risky">Risky</SelectItem>
-                <SelectItem value="unknown">Unknown</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select value={dateFilter} onValueChange={setDateFilter}>
-              <SelectTrigger className="w-full md:w-48">
-                <SelectValue placeholder="Filter by date" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Time</SelectItem>
-                <SelectItem value="today">Today</SelectItem>
-                <SelectItem value="week">Last 7 Days</SelectItem>
-                <SelectItem value="month">Last 30 Days</SelectItem>
-              </SelectContent>
-            </Select>
+            <div className="grid grid-cols-2 sm:flex gap-4">
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger className="w-full sm:w-48">
+                  <SelectValue placeholder="Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Status</SelectItem>
+                  <SelectItem value="valid">Valid</SelectItem>
+                  <SelectItem value="invalid">Invalid</SelectItem>
+                  <SelectItem value="risky">Risky</SelectItem>
+                  <SelectItem value="unknown">Unknown</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select value={dateFilter} onValueChange={setDateFilter}>
+                <SelectTrigger className="w-full sm:w-48">
+                  <SelectValue placeholder="Date" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Time</SelectItem>
+                  <SelectItem value="today">Today</SelectItem>
+                  <SelectItem value="week">Last 7 Days</SelectItem>
+                  <SelectItem value="month">Last 30 Days</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </CardContent>
       </Card>
 
       {/* History Table */}
       <Card className="border-[#E5E7EB]">
-        <CardHeader>
+        <CardHeader className="px-4 sm:px-6">
           <CardTitle>History ({filteredHistory.length})</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0 sm:p-6 sm:pt-0">
           {filteredHistory.length === 0 ? (
             <div className="text-center py-12">
               <Mail className="w-12 h-12 mx-auto mb-4 text-muted-foreground opacity-30" />
@@ -181,7 +183,7 @@ export const HistoryPage = () => {
               </p>
             </div>
           ) : (
-            <div className="rounded-lg border border-[#E5E7EB] overflow-hidden">
+            <div className="rounded-lg border border-[#E5E7EB] overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow className="bg-accent/30">

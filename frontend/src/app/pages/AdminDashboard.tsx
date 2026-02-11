@@ -37,15 +37,15 @@ export const AdminDashboard = () => {
   ];
 
   return (
-    <div className="p-8 space-y-8">
+    <div className="p-4 sm:p-8 space-y-6 sm:space-y-8 max-w-7xl mx-auto">
       {/* Header */}
       <div>
-        <h1 className="text-3xl mb-2">Admin Dashboard</h1>
-        <p className="text-gray-600">System-wide analytics and monitoring</p>
+        <h1 className="text-2xl sm:text-3xl font-bold mb-2 text-[#1E3A8A]">Admin Dashboard</h1>
+        <p className="text-gray-600 text-sm sm:text-base">System-wide analytics and monitoring</p>
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <KPICard
           title="Total Users"
           value={allUsers.length}
@@ -160,7 +160,7 @@ export const AdminDashboard = () => {
       </Card>
 
       {/* Recent Activity */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Recent Users */}
         <Card className="border-[#E5E7EB]">
           <CardHeader>
@@ -169,22 +169,28 @@ export const AdminDashboard = () => {
           <CardContent>
             <div className="space-y-3">
               {allUsers.slice(0, 5).map((user) => (
-                <div key={user.id} className="flex items-center justify-between p-3 rounded-lg bg-accent/30 hover:bg-accent/50 transition-colors">
-                  <div>
-                    <div className="font-medium">{user.name}</div>
-                    <div className="text-sm text-muted-foreground">{user.email}</div>
+                <div key={user.id} className="flex items-center justify-between p-3 sm:p-4 rounded-xl border border-[#F1F5F9] bg-white hover:shadow-md transition-all gap-3">
+                  <div className="min-w-0 flex-1">
+                    <div className="font-semibold text-gray-900 truncate">{user.name}</div>
+                    <div className="text-sm text-gray-500 truncate">{user.email}</div>
                   </div>
-                  <div className="text-right">
-                    <div className="text-sm font-medium capitalize">{user.plan}</div>
-                    <div className="text-xs text-muted-foreground">
+                  <div className="text-right shrink-0">
+                    <div className={`text-xs font-bold uppercase tracking-wider px-2 py-1 rounded-md mb-1 ${
+                      user.plan === 'enterprise' ? 'bg-blue-100 text-blue-700' : 
+                      user.plan === 'business' ? 'bg-blue-50 text-blue-600' : 'bg-gray-100 text-gray-600'
+                    }`}>
+                      {user.plan}
+                    </div>
+                    <div className="text-xs text-gray-400 font-medium">
                       {user.createdAt.toLocaleDateString()}
                     </div>
                   </div>
                 </div>
               ))}
               {allUsers.length === 0 && (
-                <div className="text-center py-8 text-muted-foreground">
-                  No users registered yet
+                <div className="text-center py-12 text-gray-400">
+                  <Users className="w-12 h-12 mx-auto mb-3 opacity-20" />
+                  <p>No users registered yet</p>
                 </div>
               )}
             </div>
@@ -199,19 +205,22 @@ export const AdminDashboard = () => {
           <CardContent>
             <div className="space-y-3">
               {allVerifications.slice(0, 5).map((verification) => (
-                <div key={verification.id} className="flex items-center justify-between p-3 rounded-lg bg-accent/30 hover:bg-accent/50 transition-colors">
-                  <div className="flex-1 min-w-0">
-                    <div className="font-medium truncate">{verification.email}</div>
-                    <div className="text-xs text-muted-foreground">
+                <div key={verification.id} className="flex items-center justify-between p-3 sm:p-4 rounded-xl border border-[#F1F5F9] bg-white hover:shadow-md transition-all gap-3">
+                  <div className="min-w-0 flex-1">
+                    <div className="font-semibold text-gray-900 truncate">{verification.email}</div>
+                    <div className="text-xs text-gray-400 font-medium mt-1">
                       {verification.timestamp.toLocaleString()}
                     </div>
                   </div>
-                  <StatusBadge status={verification.status} />
+                  <div className="shrink-0">
+                    <StatusBadge status={verification.status} />
+                  </div>
                 </div>
               ))}
               {allVerifications.length === 0 && (
-                <div className="text-center py-8 text-muted-foreground">
-                  No verifications yet
+                <div className="text-center py-12 text-gray-400">
+                  <Mail className="w-12 h-12 mx-auto mb-3 opacity-20" />
+                  <p>No verifications yet</p>
                 </div>
               )}
             </div>

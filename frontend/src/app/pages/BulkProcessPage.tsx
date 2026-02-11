@@ -78,11 +78,11 @@ export const BulkProcessPage = () => {
   const unknownCount = results.filter(r => r.status === 'unknown').length;
 
   return (
-    <div className="p-8 max-w-6xl mx-auto space-y-8">
+    <div className="p-4 sm:p-8 max-w-6xl mx-auto space-y-6 sm:space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl mb-2">Processing: {upload.filename}</h1>
-        <p className="text-gray-600">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-2 text-[#1E3A8A]">Processing: {upload.filename}</h1>
+        <p className="text-gray-600 text-sm sm:text-base">
           Verifying {mockEmails.length} email addresses
         </p>
       </div>
@@ -138,7 +138,7 @@ export const BulkProcessPage = () => {
       </Card>
 
       {/* Status Breakdown */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <Card className="border-[#E5E7EB] border-l-4 border-l-green-500">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">

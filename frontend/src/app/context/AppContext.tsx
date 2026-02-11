@@ -76,7 +76,7 @@ interface AppContextType {
   isAuthenticated: boolean;
   loading: boolean;
   signup: (name: string, email: string, password: string) => Promise<boolean>;
-  login: (email: string, password: string) => Promise<boolean>;
+  login: (email: string, password: string, isAdmin?: boolean) => Promise<boolean>;
   signInWithGoogle: () => Promise<boolean>;
   logout: () => Promise<void>;
   verifyEmail: (email: string) => Promise<EmailVerification>;
@@ -262,9 +262,28 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // Login with Firebase Auth
-  const login = async (email: string, password: string): Promise<boolean> => {
+  const login = async (email: string, password: string, isAdmin: boolean = false): Promise<boolean> => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      
+      if (isAdmin) {
+        const userRef = doc(db, 'users', userCredential.user.uid);
+        const userSnap = await getDoc(userRef);
+        
+        if (userSnap.exists()) {
+          const userData = userSnap.data();
+          if (userData.role !== 'admin') {
+            await signOut(auth);
+            toast.error('Access denied. Admin role required.');
+            return false;
+          }
+        } else {
+          await signOut(auth);
+          toast.error('User record not found.');
+          return false;
+        }
+      }
+
       toast.success('Logged in successfully!');
       return true;
     } catch (error: any) {
