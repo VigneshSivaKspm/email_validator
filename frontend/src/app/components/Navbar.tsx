@@ -27,36 +27,40 @@ export const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-8" data-aos="fade-down" data-aos-delay="200">
             {!isAuthenticated ? (
               <>
-                <Link to="/" className="text-gray-600 hover:text-[#2563EB] transition-colors">
+                <Link to="/" className="text-gray-600 hover:text-[#2563EB] transition-colors relative group">
                   Home
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#2563EB] transition-all group-hover:w-full" />
                 </Link>
-                <Link to="/pricing" className="text-gray-600 hover:text-[#2563EB] transition-colors">
+                <Link to="/pricing" className="text-gray-600 hover:text-[#2563EB] transition-colors relative group">
                   Pricing
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#2563EB] transition-all group-hover:w-full" />
                 </Link>
-                <Link to="/docs" className="text-gray-600 hover:text-[#2563EB] transition-colors">
+                <Link to="/docs" className="text-gray-600 hover:text-[#2563EB] transition-colors relative group">
                   Docs
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#2563EB] transition-all group-hover:w-full" />
                 </Link>
                 <Link to="/login">
                   <Button variant="ghost">Login</Button>
                 </Link>
                 <Link to="/signup">
-                  <Button className="bg-[#2563EB] hover:bg-[#1E3A8A]">Start Free Trial</Button>
+                  <Button className="bg-[#2563EB] hover:bg-[#1E3A8A] shadow-md hover:shadow-lg transition-all">Start Free Trial</Button>
                 </Link>
               </>
             ) : (
               <>
-                <Link to={user?.role === 'admin' ? '/admin' : '/dashboard'} className="text-gray-600 hover:text-[#2563EB] transition-colors">
+                <Link to={user?.role === 'admin' ? '/admin' : '/dashboard'} className="text-gray-600 hover:text-[#2563EB] transition-colors relative group">
                   Dashboard
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#2563EB] transition-all group-hover:w-full" />
                 </Link>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 pl-4 border-l border-[#E5E7EB]">
                   <div className="text-right">
                     <div className="text-sm font-medium text-gray-900">{user?.name}</div>
                     <div className="text-xs text-gray-500 capitalize">{user?.plan} Plan</div>
                   </div>
-                  <Button onClick={handleLogout} variant="outline">
+                  <Button onClick={handleLogout} variant="outline" className="border-[#E5E7EB]">
                     Logout
                   </Button>
                 </div>

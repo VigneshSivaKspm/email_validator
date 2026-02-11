@@ -22,19 +22,19 @@ export const LandingPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-[#F8FAFC]">
       {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-12">
+        <div className="grid lg:grid-cols-2 gap-8 items-center">
           <div data-aos="fade-right">
-            <div className="inline-flex items-center gap-2 bg-blue-50 text-[#2563EB] px-4 py-2 rounded-full text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 bg-blue-50 text-[#2563EB] px-4 py-2 rounded-full text-sm font-medium mb-4">
               <Activity className="w-4 h-4 animate-pulse" />
               Advanced Multi-Layer Verification Active
             </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight text-center lg:text-left">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 leading-tight text-center lg:text-left">
               Hyper-Accurate<br />
               Email Validation<br />
               <span className="text-[#2563EB]">For Modern Growth.</span>
             </h1>
-            <p className="text-lg sm:text-xl text-gray-600 mb-8 leading-relaxed text-center lg:text-left">
+            <p className="text-lg sm:text-xl text-gray-600 mb-6 leading-relaxed text-center lg:text-left">
               Go beyond simple syntax checks. Our 7-layer verification engine performs SMTP handshakes, DNS security audits, and data breach checks to ensure 99.9% deliverability.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -298,7 +298,10 @@ export const LandingPage = () => {
                 </Button>
               </Link>
               <Link to="/docs">
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 text-lg px-8 py-6">
+                <Button 
+                  size="lg" 
+                  className="bg-white text-[#2563EB] hover:bg-gray-100 text-lg px-8 py-6 shadow-xl"
+                >
                   View Documentation
                 </Button>
               </Link>

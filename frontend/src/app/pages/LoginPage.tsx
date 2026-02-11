@@ -11,7 +11,7 @@ import { toast } from 'sonner';
 
 export const LoginPage = () => {
   const navigate = useNavigate();
-  const { login } = useApp();
+  const { login, signInWithGoogle } = useApp();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -36,26 +36,38 @@ export const LoginPage = () => {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    try {
+      const success = await signInWithGoogle();
+      if (success) {
+        toast.success('Signed in with Google!');
+        navigate('/dashboard');
+      }
+    } catch (error) {
+      toast.error('Google sign-in failed');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#F8FAFC] to-white flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-md" data-aos="fade-up">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 justify-center mb-8">
+        <Link to="/" className="flex items-center gap-2 justify-center mb-8" data-aos="zoom-in" data-aos-delay="200">
           <div className="w-12 h-12 bg-gradient-to-br from-[#2563EB] to-[#1E3A8A] rounded-xl flex items-center justify-center">
             <ShieldCheck className="w-7 h-7 text-white" />
           </div>
           <span className="text-2xl font-bold text-[#1E3A8A]">VerifyMail</span>
         </Link>
 
-        <Card className="border-[#E5E7EB] shadow-xl">
-          <CardHeader className="text-center pb-4">
+        <Card className="border-[#E5E7EB] shadow-xl overflow-hidden">
+          <CardHeader className="text-center pb-4" data-aos="fade-down" data-aos-delay="400">
             <CardTitle className="text-2xl font-bold text-gray-900">Welcome Back</CardTitle>
             <p className="text-gray-600 mt-2">Sign in to your account</p>
           </CardHeader>
           <CardContent className="pt-6">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Email */}
-              <div className="space-y-2">
+              <div className="space-y-2" data-aos="fade-right" data-aos-delay="500">
                 <Label htmlFor="email">Email Address</Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -72,7 +84,7 @@ export const LoginPage = () => {
               </div>
 
               {/* Password */}
-              <div className="space-y-2">
+              <div className="space-y-2" data-aos="fade-right" data-aos-delay="600">
                 <Label htmlFor="password">Password</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -89,7 +101,7 @@ export const LoginPage = () => {
               </div>
 
               {/* Remember Me & Forgot Password */}
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between" data-aos="fade-up" data-aos-delay="700">
                 <div className="flex items-center gap-2">
                   <Checkbox
                     id="remember"
@@ -111,12 +123,14 @@ export const LoginPage = () => {
                 className="w-full bg-[#2563EB] hover:bg-[#1E3A8A]"
                 size="lg"
                 disabled={loading}
+                data-aos="zoom-in"
+                data-aos-delay="800"
               >
                 {loading ? 'Signing in...' : 'Sign In'}
               </Button>
 
               {/* OAuth Divider */}
-              <div className="relative">
+              <div className="relative" data-aos="fade-up" data-aos-delay="900">
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-[#E5E7EB]"></div>
                 </div>
@@ -129,8 +143,11 @@ export const LoginPage = () => {
               <Button
                 type="button"
                 variant="outline"
-                className="w-full border-[#E5E7EB]"
+                className="w-full border-[#E5E7EB] hover:bg-gray-50"
                 size="lg"
+                onClick={handleGoogleSignIn}
+                data-aos="fade-up"
+                data-aos-delay="1000"
               >
                 <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
                   <path
@@ -155,7 +172,7 @@ export const LoginPage = () => {
             </form>
 
             {/* Sign Up Link */}
-            <div className="mt-6 text-center text-sm text-gray-600">
+            <div className="mt-6 text-center text-sm text-gray-600" data-aos="fade-up" data-aos-delay="1100">
               Don't have an account?{' '}
               <Link to="/signup" className="text-[#2563EB] hover:underline font-medium">
                 Sign up for free
@@ -165,7 +182,7 @@ export const LoginPage = () => {
         </Card>
 
         {/* Demo Credentials */}
-        <Card className="mt-4 border-amber-200 bg-amber-50">
+        <Card className="mt-4 border-amber-200 bg-amber-50" data-aos="fade-up" data-aos-delay="1200">
           <CardContent className="p-4">
             <p className="text-sm text-amber-800 text-center">
               <strong>Demo:</strong> Use any email from the signup page or create a new account

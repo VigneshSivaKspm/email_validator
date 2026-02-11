@@ -34,15 +34,15 @@ export const UserDashboard = () => {
   const quotaPercentage = user ? (user.usedQuota / user.monthlyQuota) * 100 : 0;
 
   return (
-    <div className="p-8 space-y-8">
+    <div className="p-8 space-y-8 overflow-hidden">
       {/* Welcome Header */}
-      <div>
+      <div data-aos="fade-down">
         <h1 className="text-3xl mb-2">Welcome back, {user?.name}!</h1>
         <p className="text-gray-600">Here's your email verification overview</p>
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" data-aos="fade-up">
         <KPICard
           title="Current Plan"
           value={user?.plan.charAt(0).toUpperCase() + user?.plan.slice(1) || 'Free'}
@@ -74,7 +74,7 @@ export const UserDashboard = () => {
       </div>
 
       {/* Charts Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6" data-aos="fade-up" data-aos-delay="200">
         {/* Verification Trend */}
         <Card className="border-[#E5E7EB]">
           <CardHeader>
@@ -130,19 +130,19 @@ export const UserDashboard = () => {
       </div>
 
       {/* Quick Actions */}
-      <Card className="border-[#E5E7EB]">
+      <Card className="border-[#E5E7EB]" data-aos="fade-up" data-aos-delay="300">
         <CardHeader>
           <CardTitle>Quick Actions</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Link to="/dashboard/verify">
+            <Link to="/dashboard/verify" className="block transform hover:scale-[1.02] transition-transform duration-200">
               <Button className="w-full h-20 bg-[#2563EB] hover:bg-[#1E3A8A] text-lg">
                 <Mail className="w-6 h-6 mr-3" />
                 Verify Single Email
               </Button>
             </Link>
-            <Link to="/dashboard/bulk">
+            <Link to="/dashboard/bulk" className="block transform hover:scale-[1.02] transition-transform duration-200">
               <Button variant="outline" className="w-full h-20 border-[#E5E7EB] text-lg">
                 <Upload className="w-6 h-6 mr-3" />
                 Upload Bulk List
@@ -153,7 +153,7 @@ export const UserDashboard = () => {
       </Card>
 
       {/* Recent Activity */}
-      <Card className="border-[#E5E7EB]">
+      <Card className="border-[#E5E7EB]" data-aos="fade-up" data-aos-delay="400">
         <CardHeader>
           <div className="flex justify-between items-center">
             <CardTitle>Recent Verifications</CardTitle>
@@ -170,8 +170,13 @@ export const UserDashboard = () => {
             </div>
           ) : (
             <div className="space-y-3">
-              {verificationHistory.slice(0, 5).map((verification) => (
-                <div key={verification.id} className="flex items-center justify-between p-4 rounded-lg bg-accent/30 hover:bg-accent/50 transition-colors">
+              {verificationHistory.slice(0, 5).map((verification, idx) => (
+                <div 
+                  key={verification.id} 
+                  className="flex items-center justify-between p-4 rounded-lg bg-accent/30 hover:bg-accent/50 transition-colors"
+                  data-aos="fade-left"
+                  data-aos-delay={idx * 50}
+                >
                   <div className="flex items-center gap-3 flex-1">
                     <Mail className="w-4 h-4 text-muted-foreground" />
                     <span className="font-medium">{verification.email}</span>

@@ -64,10 +64,10 @@ export const PricingPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-[#F8FAFC] py-20">
+    <div className="min-h-screen bg-gradient-to-b from-white to-[#F8FAFC] py-20 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-16" data-aos="fade-down">
           <h1 className="text-5xl font-bold text-gray-900 mb-4">
             Simple, Transparent Pricing
           </h1>
@@ -83,12 +83,14 @@ export const PricingPage = () => {
               key={index}
               className={`relative border-2 ${
                 plan.popular
-                  ? 'border-[#2563EB] shadow-2xl shadow-blue-500/20 scale-105'
+                  ? 'border-[#2563EB] shadow-2xl shadow-blue-500/20 scale-105 z-10'
                   : 'border-[#E5E7EB] hover:shadow-lg'
               } transition-all`}
+              data-aos={index === 0 ? "fade-right" : index === 1 ? "fade-up" : "fade-left"}
+              data-aos-delay={index * 100}
             >
               {plan.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#2563EB] to-[#1E3A8A] text-white px-4 py-1 rounded-full text-sm font-medium">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#2563EB] to-[#1E3A8A] text-white px-4 py-1 rounded-full text-sm font-medium animate-bounce">
                   Most Popular
                 </div>
               )}
@@ -131,7 +133,7 @@ export const PricingPage = () => {
 
         {/* FAQ */}
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 text-center mb-12" data-aos="fade-up">
             Frequently Asked Questions
           </h2>
           <div className="space-y-6">
@@ -153,7 +155,7 @@ export const PricingPage = () => {
                 a: 'Absolutely. We use enterprise-grade encryption and comply with GDPR, SOC 2, and other security standards.',
               },
             ].map((faq, index) => (
-              <Card key={index} className="border-[#E5E7EB]">
+              <Card key={index} className="border-[#E5E7EB]" data-aos="zoom-in-up" data-aos-delay={index * 100}>
                 <CardContent className="p-6">
                   <h3 className="font-semibold text-gray-900 mb-2">{faq.q}</h3>
                   <p className="text-gray-600">{faq.a}</p>
@@ -164,11 +166,11 @@ export const PricingPage = () => {
         </div>
 
         {/* Contact CTA */}
-        <div className="mt-16 text-center">
+        <div className="mt-16 text-center" data-aos="fade-up">
           <p className="text-gray-600 mb-4">
             Need a custom plan or have questions?
           </p>
-          <Button variant="outline" size="lg" className="border-[#2563EB] text-[#2563EB]">
+          <Button variant="outline" size="lg" className="border-[#2563EB] text-[#2563EB] hover:bg-blue-50">
             Contact Sales Team
           </Button>
         </div>
