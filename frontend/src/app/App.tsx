@@ -32,9 +32,23 @@ import { AdminLogsPage } from './pages/AdminLogsPage';
 import { AdminSettingsPage } from './pages/AdminSettingsPage';
 import { AdminFileManagerPage } from './pages/AdminFileManagerPage';
 
+// Loading component
+const LoadingScreen = () => (
+  <div className="min-h-screen flex items-center justify-center bg-white">
+    <div className="text-center">
+      <div className="w-12 h-12 rounded-full border-4 border-[#E5E7EB] border-t-[#2563EB] animate-spin mx-auto mb-4"></div>
+      <p className="text-gray-600">Initializing...</p>
+    </div>
+  </div>
+);
+
 // Protected Route Components
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { isAuthenticated, user } = useApp();
+  const { isAuthenticated, user, loading } = useApp();
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
   
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
@@ -48,7 +62,11 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 };
 
 const AdminRoute = ({ children }: { children: React.ReactNode }) => {
-  const { isAuthenticated, user } = useApp();
+  const { isAuthenticated, user, loading } = useApp();
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
   
   if (!isAuthenticated || user?.role !== 'admin') {
     return <Navigate to="/admin/login" replace />;
