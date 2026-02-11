@@ -1,11 +1,9 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
 import { 
   CheckCircle2, 
   Shield, 
-  Zap, 
   FileCheck, 
   TrendingUp, 
   Users,
@@ -26,49 +24,39 @@ export const LandingPage = () => {
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div>
+          <div data-aos="fade-right">
             <div className="inline-flex items-center gap-2 bg-blue-50 text-[#2563EB] px-4 py-2 rounded-full text-sm font-medium mb-6">
               <Activity className="w-4 h-4 animate-pulse" />
               Advanced Multi-Layer Verification Active
             </div>
-            <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight text-center lg:text-left">
               Hyper-Accurate<br />
               Email Validation<br />
               <span className="text-[#2563EB]">For Modern Growth.</span>
             </h1>
-            <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+            <p className="text-lg sm:text-xl text-gray-600 mb-8 leading-relaxed text-center lg:text-left">
               Go beyond simple syntax checks. Our 7-layer verification engine performs SMTP handshakes, DNS security audits, and data breach checks to ensure 99.9% deliverability.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/signup">
-                <Button size="lg" className="bg-[#2563EB] hover:bg-[#1E3A8A] text-lg px-8 py-6">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <Link to="/signup" className="w-full sm:w-auto">
+                <Button size="lg" className="w-full bg-[#2563EB] hover:bg-[#1E3A8A] text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all">
                   Start Free Trial
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </Link>
-              <Link to="/pricing">
-                <Button size="lg" variant="outline" className="text-lg px-8 py-6 border-[#E5E7EB]">
+              <Link to="/pricing" className="w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="w-full text-lg px-8 py-6 border-[#E5E7EB] hover:bg-gray-50 transition-all">
                   View Pricing
                 </Button>
               </Link>
             </div>
-            <div className="mt-8 flex items-center gap-6 text-sm text-gray-600">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-5 h-5 text-green-600" />
-                No credit card required
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-5 h-5 text-green-600" />
-                1,000 free credits
-              </div>
-            </div>
           </div>
-          <div className="relative">
+          <div className="relative" data-aos="zoom-in" data-aos-delay="200">
             <div className="absolute inset-0 bg-gradient-to-r from-[#2563EB] to-[#1E3A8A] rounded-3xl blur-3xl opacity-20"></div>
             <ImageWithFallback
               src="https://images.unsplash.com/photo-1763568258367-1c52beb60be7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbWFpbCUyMG1hcmtldGluZyUyMHByb2Zlc3Npb25hbCUyMHdvcmtzcGFjZXxlbnwxfHx8fDE3NzA2NTg0OTB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
               alt="Email Verification Dashboard"
-              className="relative rounded-2xl shadow-2xl w-full"
+              className="relative rounded-2xl shadow-2xl w-full transform hover:scale-[1.02] transition-transform duration-500"
             />
           </div>
         </div>
@@ -76,7 +64,7 @@ export const LandingPage = () => {
 
       {/* Features Grid */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="text-center mb-16">
+        <div className="text-center mb-16" data-aos="fade-up">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
             The World's Most Comprehensive Verification Engine
           </h2>
@@ -150,7 +138,7 @@ export const LandingPage = () => {
             };
 
             return (
-              <Card key={index} className="border-[#E5E7EB] border-opacity-50 hover:shadow-[0_20px_50px_rgba(37,99,235,0.1)] transition-all hover:-translate-y-2 group">
+              <Card key={index} className="border-[#E5E7EB] border-opacity-50 hover:shadow-[0_20px_50px_rgba(37,99,235,0.1)] transition-all hover:-translate-y-2 group" data-aos="fade-up" data-aos-delay={index * 50}>
                 <CardContent className="p-8">
                   <div className={`w-14 h-14 rounded-2xl ${colorClasses[feature.color as keyof typeof colorClasses]} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
                     <Icon className="w-7 h-7" />
@@ -172,7 +160,7 @@ export const LandingPage = () => {
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-20">
+          <div className="text-center mb-20" data-aos="fade-down">
             <h2 className="text-4xl font-bold text-white mb-4">
               Our 7-Layer Intelligence Stack
             </h2>
@@ -185,29 +173,29 @@ export const LandingPage = () => {
             {/* Connection Line */}
             <div className="hidden lg:block absolute top-1/2 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-blue-500/30 to-transparent -translate-y-1/2"></div>
             
-            <div className="grid lg:grid-cols-7 gap-4 relative">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-6 lg:gap-4 relative">
               {[
-                { step: '01', title: 'Syntax', icon: CheckCircle2, desc: 'RFC Compliance' },
-                { step: '02', title: 'Risk', icon: AlertTriangle, desc: 'Disposable Check' },
-                { step: '03', title: 'DNS', icon: Globe, desc: 'MX & Security' },
-                { step: '04', title: 'SMTP', icon: Server, desc: 'Real-time Ping' },
-                { step: '05', title: 'Rep', icon: TrendingUp, desc: 'Domain Age' },
-                { step: '06', title: 'Security', icon: Shield, desc: 'Breach Check' },
-                { step: '07', title: 'Score', icon: Star, desc: 'Final AI Score' },
+                { step: '01', title: 'Syntax', icon: CheckCircle2, desc: 'RFC Compliance', animation: 'fade-up' },
+                { step: '02', title: 'Risk', icon: AlertTriangle, desc: 'Disposable Check', animation: 'fade-up' },
+                { step: '03', title: 'DNS', icon: Globe, desc: 'MX & Security', animation: 'fade-up' },
+                { step: '04', title: 'SMTP', icon: Server, desc: 'Real-time Ping', animation: 'fade-up' },
+                { step: '05', title: 'Rep', icon: TrendingUp, desc: 'Domain Age', animation: 'fade-up' },
+                { step: '06', title: 'Security', icon: Shield, desc: 'Breach Check', animation: 'fade-up' },
+                { step: '07', title: 'Score', icon: Star, desc: 'Final AI Score', animation: 'fade-up' },
               ].map((item, i) => (
-                <div key={i} className="flex flex-col items-center text-center group">
-                  <div className="w-16 h-16 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-blue-400 mb-6 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 transition-all duration-300 relative z-20 shadow-xl">
-                    <item.icon className="w-8 h-8" />
-                    <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border border-slate-900">{item.step}</span>
+                <div key={i} className="flex flex-col items-center text-center group" data-aos={item.animation} data-aos-delay={i * 100}>
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-blue-400 mb-4 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 transition-all duration-300 relative z-20 shadow-xl">
+                    <item.icon className="w-8 h-8 sm:w-10 sm:h-10" />
+                    <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full border border-slate-900">{item.step}</span>
                   </div>
-                  <h4 className="text-white font-bold mb-1">{item.title}</h4>
-                  <p className="text-slate-500 text-xs">{item.desc}</p>
+                  <h4 className="text-white font-bold mb-1 text-sm sm:text-base">{item.title}</h4>
+                  <p className="text-slate-500 text-[10px] sm:text-xs">{item.desc}</p>
                 </div>
               ))}
             </div>
           </div>
           
-          <div className="mt-20 text-center">
+          <div className="mt-20 text-center" data-aos="zoom-in">
             <div className="inline-block p-[1px] rounded-full bg-gradient-to-r from-blue-500 to-indigo-500">
               <div className="bg-slate-900 px-8 py-4 rounded-full">
                 <p className="text-slate-300 text-sm">
@@ -229,7 +217,7 @@ export const LandingPage = () => {
               { value: '99.9%', label: 'Accuracy Rate' },
               { value: '24/7', label: 'Support' },
             ].map((stat, index) => (
-              <div key={index} className="text-center">
+              <div key={index} className="text-center" data-aos="zoom-in" data-aos-delay={index * 100}>
                 <div className="text-4xl lg:text-5xl font-bold text-white mb-2">{stat.value}</div>
                 <div className="text-blue-100">{stat.label}</div>
               </div>
@@ -240,7 +228,7 @@ export const LandingPage = () => {
 
       {/* Testimonials */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="text-center mb-16">
+        <div className="text-center mb-16" data-aos="fade-up">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
             Trusted by Industry Leaders
           </h2>
@@ -273,7 +261,7 @@ export const LandingPage = () => {
               rating: 5,
             },
           ].map((testimonial, index) => (
-            <Card key={index} className="border-[#E5E7EB] hover:shadow-lg transition-shadow">
+            <Card key={index} className="border-[#E5E7EB] hover:shadow-lg transition-all hover:-translate-y-2" data-aos="fade-up" data-aos-delay={index * 100}>
               <CardContent className="p-8">
                 <div className="flex gap-1 mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
@@ -294,7 +282,7 @@ export const LandingPage = () => {
 
       {/* CTA Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <Card className="bg-gradient-to-r from-[#2563EB] to-[#1E3A8A] border-none">
+        <Card className="bg-gradient-to-r from-[#2563EB] to-[#1E3A8A] border-none shadow-2xl" data-aos="flip-up">
           <CardContent className="p-12 lg:p-16 text-center">
             <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
               Ready to Clean Your Email List?
@@ -304,7 +292,7 @@ export const LandingPage = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/signup">
-                <Button size="lg" className="bg-white text-[#2563EB] hover:bg-gray-100 text-lg px-8 py-6">
+                <Button size="lg" className="bg-white text-[#2563EB] hover:bg-gray-100 text-lg px-8 py-6 shadow-xl">
                   Start Free Trial
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>

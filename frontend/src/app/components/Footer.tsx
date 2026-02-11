@@ -90,24 +90,24 @@ export const Footer = () => {
             <h3 className="font-semibold text-gray-900 mb-4">Legal</h3>
             <ul className="space-y-3 text-sm">
               <li>
-                <a href="#" className="text-gray-600 hover:text-[#2563EB] transition-colors">
+                <Link to="/privacy" className="text-gray-600 hover:text-[#2563EB] transition-colors">
                   Privacy Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-[#2563EB] transition-colors">
+                <Link to="/terms" className="text-gray-600 hover:text-[#2563EB] transition-colors">
                   Terms of Service
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-[#2563EB] transition-colors">
+                <Link to="/cookies" className="text-gray-600 hover:text-[#2563EB] transition-colors">
                   Cookie Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-[#2563EB] transition-colors">
-                  GDPR
-                </a>
+                <Link to="/gdpr" className="text-gray-600 hover:text-[#2563EB] transition-colors">
+                  GDPR Compliance
+                </Link>
               </li>
             </ul>
           </div>

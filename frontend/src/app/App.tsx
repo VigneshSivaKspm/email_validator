@@ -1,11 +1,15 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AppProvider, useApp } from './context/AppContext';
 import { Toaster } from './components/ui/sonner';
+import { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 // Layouts
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { DashboardSidebar } from './components/DashboardSidebar';
+import { ScrollToTop } from './components/ScrollToTop';
 
 // Public Pages
 import { LandingPage } from './pages/LandingPage';
@@ -14,6 +18,10 @@ import { DocsPage } from './pages/DocsPage';
 import { LoginPage } from './pages/LoginPage';
 import { SignupPage } from './pages/SignupPage';
 import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
+import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
+import { TermsOfServicePage } from './pages/TermsOfServicePage';
+import { CookiePolicyPage } from './pages/CookiePolicyPage';
+import { GDPRPage } from './pages/GDPRPage';
 
 // User Dashboard Pages
 import { UserDashboard } from './pages/UserDashboard';
@@ -96,13 +104,26 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
 };
 
 function AppContent() {
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: true,
+      easing: 'ease-out-cubic',
+    });
+  }, []);
+
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<PublicLayout><LandingPage /></PublicLayout>} />
         <Route path="/pricing" element={<PublicLayout><PricingPage /></PublicLayout>} />
         <Route path="/docs" element={<PublicLayout><DocsPage /></PublicLayout>} />
+        <Route path="/privacy" element={<PublicLayout><PrivacyPolicyPage /></PublicLayout>} />
+        <Route path="/terms" element={<PublicLayout><TermsOfServicePage /></PublicLayout>} />
+        <Route path="/cookies" element={<PublicLayout><CookiePolicyPage /></PublicLayout>} />
+        <Route path="/gdpr" element={<PublicLayout><GDPRPage /></PublicLayout>} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />

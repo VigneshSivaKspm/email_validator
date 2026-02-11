@@ -1,9 +1,11 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
+  signInWithPopup,
+  GoogleAuthProvider,
 } from 'firebase/auth';
 import {
   collection,
@@ -75,6 +77,7 @@ interface AppContextType {
   loading: boolean;
   signup: (name: string, email: string, password: string) => Promise<boolean>;
   login: (email: string, password: string) => Promise<boolean>;
+  signInWithGoogle: () => Promise<boolean>;
   logout: () => Promise<void>;
   verifyEmail: (email: string) => Promise<EmailVerification>;
   verificationHistory: EmailVerification[];
@@ -100,8 +103,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const [verificationHistory, setVerificationHistory] = useState<EmailVerification[]>([]);
   const [bulkUploads, setBulkUploads] = useState<BulkUpload[]>([]);
-  const [allUsers, setAllUsers] = useState<User[]>([]);
-  const [allVerifications, setAllVerifications] = useState<EmailVerification[]>([]);
+  const [allUsers] = useState<User[]>([]);
+  const [allVerifications] = useState<EmailVerification[]>([]);
 
   const VALIDATOR_API_URL = import.meta.env.VITE_VALIDATOR_API_URL || 'http://localhost:3004';
   const QUOTA_LIMITS = {
@@ -270,6 +273,38 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         : 'Failed to login';
       toast.error(errorMessage);
       console.error('Login error:', error);
+      return false;
+    }
+  };
+
+  // Sign in with Google
+  const signInWithGoogle = async (): Promise<boolean> => {
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      const firebaseUser = result.user;
+
+      // Create or update user document in Firestore
+      const userRef = doc(db, 'users', firebaseUser.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        await setDoc(userRef, {
+          name: firebaseUser.displayName || 'User',
+          email: firebaseUser.email,
+          role: 'user',
+          plan: 'free',
+          monthlyQuota: QUOTA_LIMITS.free,
+          usedQuota: 0,
+          createdAt: Timestamp.now(),
+        });
+      }
+
+      toast.success('Logged in with Google successfully!');
+      return true;
+    } catch (error: any) {
+      toast.error('Failed to login with Google');
+      console.error('Google login error:', error);
       return false;
     }
   };
@@ -507,6 +542,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     loading,
     signup,
     login,
+    signInWithGoogle,
     logout,
     verifyEmail,
     verificationHistory,
