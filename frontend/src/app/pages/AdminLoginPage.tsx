@@ -23,13 +23,10 @@ export const AdminLoginPage = () => {
     try {
       const success = await login(email, password, true); // isAdmin = true
       if (success) {
-        toast.success('Admin login successful!');
         navigate('/admin');
-      } else {
-        toast.error('Invalid admin credentials');
       }
     } catch (error) {
-      toast.error('Login failed');
+      // Error handled by context
     } finally {
       setLoading(false);
     }

@@ -39,30 +39,30 @@ export const UserSettingsPage = () => {
   const quotaPercentage = user ? (user.usedQuota / user.monthlyQuota) * 100 : 0;
 
   return (
-    <div className="p-8 max-w-4xl mx-auto space-y-8">
+    <div className="p-4 sm:p-8 max-w-4xl mx-auto space-y-6 sm:space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl mb-2">Account Settings</h1>
-        <p className="text-gray-600">Manage your account and preferences</p>
+        <h1 className="text-2xl sm:text-3xl font-bold mb-2 text-[#1E3A8A]">Account Settings</h1>
+        <p className="text-gray-600 text-sm sm:text-base">Manage your account and preferences</p>
       </div>
 
       <Tabs defaultValue="profile" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="profile">
+        <TabsList className="flex overflow-x-auto sm:grid w-full sm:grid-cols-4 no-scrollbar bg-gray-100/50 p-1 rounded-xl">
+          <TabsTrigger value="profile" className="flex-1 min-w-[100px] sm:min-w-0">
             <User className="w-4 h-4 mr-2" />
-            Profile
+            <span className="truncate">Profile</span>
           </TabsTrigger>
-          <TabsTrigger value="security">
+          <TabsTrigger value="security" className="flex-1 min-w-[100px] sm:min-w-0">
             <Lock className="w-4 h-4 mr-2" />
-            Security
+            <span className="truncate">Security</span>
           </TabsTrigger>
-          <TabsTrigger value="usage">
+          <TabsTrigger value="usage" className="flex-1 min-w-[130px] sm:min-w-0">
             <CreditCard className="w-4 h-4 mr-2" />
-            Usage & Plan
+            <span className="truncate text-xs sm:text-sm">Usage & Plan</span>
           </TabsTrigger>
-          <TabsTrigger value="api">
+          <TabsTrigger value="api" className="flex-1 min-w-[100px] sm:min-w-0">
             <Key className="w-4 h-4 mr-2" />
-            API
+            <span className="truncate">API</span>
           </TabsTrigger>
         </TabsList>
 
@@ -169,42 +169,42 @@ export const UserSettingsPage = () => {
         {/* Usage Tab */}
         <TabsContent value="usage" className="space-y-6">
           <Card className="border-[#E5E7EB]">
-            <CardHeader>
+            <CardHeader className="px-4 sm:px-6">
               <CardTitle>Current Plan</CardTitle>
               <CardDescription>Manage your subscription and usage</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="flex items-center justify-between p-4 rounded-lg bg-blue-50 border border-blue-200">
+            <CardContent className="space-y-6 px-4 sm:px-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl bg-blue-50 border border-blue-100 gap-4">
                 <div>
-                  <div className="text-lg font-semibold text-[#1E3A8A] capitalize">
+                  <div className="text-lg font-bold text-[#1E3A8A] capitalize">
                     {user?.plan} Plan
                   </div>
-                  <div className="text-sm text-gray-600">
+                  <div className="text-sm text-gray-600 font-medium">
                     {user?.monthlyQuota.toLocaleString()} verifications per month
                   </div>
                 </div>
-                <Button variant="outline" className="border-[#2563EB] text-[#2563EB]">
+                <Button variant="outline" className="border-[#2563EB] text-[#2563EB] hover:bg-[#2563EB] hover:text-white transition-all">
                   Upgrade Plan
                 </Button>
               </div>
 
               <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Monthly Usage</span>
-                  <span className="text-sm font-medium">
-                    {user?.usedQuota} / {user?.monthlyQuota} ({quotaPercentage.toFixed(0)}%)
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-gray-500 font-medium">Monthly Usage</span>
+                  <span className="font-bold text-[#1E3A8A]">
+                    {user?.usedQuota.toLocaleString()} / {user?.monthlyQuota.toLocaleString()} ({quotaPercentage.toFixed(1)}%)
                   </span>
                 </div>
                 <Progress value={quotaPercentage} className="h-3" />
-                <p className="text-sm text-muted-foreground">
-                  {user ? user.monthlyQuota - user.usedQuota : 0} verifications remaining this month
+                <p className="text-xs sm:text-sm text-gray-500 font-medium">
+                  {user ? (user.monthlyQuota - user.usedQuota).toLocaleString() : 0} verifications remaining this month
                 </p>
               </div>
 
               {quotaPercentage >= 80 && (
                 <Alert className="border-amber-200 bg-amber-50">
                   <AlertTriangle className="h-4 w-4 text-amber-600" />
-                  <AlertDescription className="text-amber-800">
+                  <AlertDescription className="text-amber-800 font-medium">
                     You're using {quotaPercentage.toFixed(0)}% of your monthly quota. 
                     Consider upgrading to avoid interruptions.
                   </AlertDescription>
@@ -214,15 +214,19 @@ export const UserSettingsPage = () => {
           </Card>
 
           <Card className="border-[#E5E7EB]">
-            <CardHeader>
+            <CardHeader className="px-4 sm:px-6">
               <CardTitle>Billing Information</CardTitle>
               <CardDescription>Manage your payment methods</CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="text-center py-8 text-muted-foreground">
-                <CreditCard className="w-12 h-12 mx-auto mb-4 opacity-30" />
-                <p className="mb-4">No payment method on file</p>
-                <Button variant="outline">Add Payment Method</Button>
+            <CardContent className="p-6 sm:p-10">
+              <div className="text-center py-4">
+                <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <CreditCard className="w-8 h-8 text-gray-400 opacity-50" />
+                </div>
+                <p className="text-gray-500 mb-6 font-medium">No payment method on file</p>
+                <Button variant="outline" className="border-gray-200 hover:bg-gray-50 transition-all">
+                  Add Payment Method
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -231,36 +235,36 @@ export const UserSettingsPage = () => {
         {/* API Tab */}
         <TabsContent value="api" className="space-y-6">
           <Card className="border-[#E5E7EB]">
-            <CardHeader>
+            <CardHeader className="px-4 sm:px-6">
               <CardTitle>API Access</CardTitle>
               <CardDescription>Manage your API keys and integrations</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="p-4 rounded-lg bg-accent/30 border border-border">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="font-medium">API Key</span>
-                  <Badge variant="outline">Active</Badge>
+            <CardContent className="space-y-6 px-4 sm:px-6">
+              <div className="p-4 rounded-xl bg-gray-50 border border-gray-100">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="font-bold text-gray-700 text-sm italic uppercase tracking-wider">Secret API Key</span>
+                  <Badge className="bg-green-100 text-green-700 hover:bg-green-200 border-none">Active</Badge>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Input value="vfm_••••••••••••••••••••1234" readOnly className="font-mono text-sm" />
-                  <Button variant="outline" size="sm">Copy</Button>
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                  <Input value="vfm_••••••••••••••••••••1234" readOnly className="font-mono text-sm bg-white border-gray-200" />
+                  <Button variant="outline" size="sm" className="shrink-0 border-gray-200">Copy Key</Button>
                 </div>
-                <p className="text-xs text-muted-foreground mt-2">
+                <p className="text-xs text-gray-400 mt-3 font-medium">
                   Last used: Never
                 </p>
               </div>
 
-              <div className="flex gap-3">
-                <Button variant="outline">Regenerate Key</Button>
-                <Button variant="outline" className="text-destructive">Revoke Access</Button>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button variant="outline" className="flex-1 border-gray-200 h-11">Regenerate Key</Button>
+                <Button variant="outline" className="flex-1 border-gray-200 text-red-600 hover:bg-red-50 hover:border-red-100 h-11">Revoke Access</Button>
               </div>
 
-              <div className="pt-4 border-t border-border">
-                <h4 className="font-semibold mb-2">API Documentation</h4>
-                <p className="text-sm text-muted-foreground mb-3">
-                  Learn how to integrate VerifyMail API into your applications
+              <div className="pt-6 border-t border-gray-100">
+                <h4 className="font-bold text-[#1E3A8A] mb-2 uppercase text-xs tracking-widest">Documentation</h4>
+                <p className="text-sm text-gray-500 mb-4 font-medium leading-relaxed">
+                  Learn how to integrate VerifyMail API into your applications with our comprehensive guides.
                 </p>
-                <Button variant="outline">View API Docs</Button>
+                <Button variant="outline" className="w-full sm:w-auto border-[#2563EB] text-[#2563EB]">View API Docs</Button>
               </div>
             </CardContent>
           </Card>
@@ -268,20 +272,20 @@ export const UserSettingsPage = () => {
       </Tabs>
 
       {/* Danger Zone */}
-      <Card className="border-red-200 bg-red-50/30">
-        <CardHeader>
-          <CardTitle className="text-red-700">Danger Zone</CardTitle>
-          <CardDescription>Irreversible account actions</CardDescription>
+      <Card className="border-red-200 bg-red-50/20">
+        <CardHeader className="px-4 sm:px-6">
+          <CardTitle className="text-red-700 font-bold">Danger Zone</CardTitle>
+          <CardDescription className="text-red-600/70">Irreversible account actions</CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="font-medium text-red-700 mb-1">Delete Account</div>
-              <div className="text-sm text-gray-600">
-                Permanently delete your account and all associated data
+        <CardContent className="px-4 sm:px-6 pb-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+            <div className="flex-1">
+              <div className="font-bold text-red-800 mb-1">Delete Account</div>
+              <div className="text-sm text-red-600/80 font-medium">
+                Permanently delete your account and all associated verification data. This action cannot be undone.
               </div>
             </div>
-            <Button variant="destructive">Delete Account</Button>
+            <Button variant="destructive" className="w-full sm:w-auto shadow-lg shadow-red-200">Delete Account</Button>
           </div>
         </CardContent>
       </Card>

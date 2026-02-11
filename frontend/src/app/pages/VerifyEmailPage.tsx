@@ -27,8 +27,8 @@ export const VerifyEmailPage = () => {
       const verification = await verifyEmail(email);
       setResult(verification);
       toast.success('Email verified successfully!');
-    } catch (error) {
-      toast.error('Failed to verify email');
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to verify email');
     } finally {
       setLoading(false);
     }

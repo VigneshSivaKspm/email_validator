@@ -24,13 +24,10 @@ export const LoginPage = () => {
     try {
       const success = await login(email, password);
       if (success) {
-        toast.success('Login successful!');
         navigate('/dashboard');
-      } else {
-        toast.error('Invalid email or password');
       }
-    } catch (error) {
-      toast.error('An error occurred. Please try again.');
+    } catch (error: any) {
+      // Error handled by context
     } finally {
       setLoading(false);
     }
@@ -40,11 +37,10 @@ export const LoginPage = () => {
     try {
       const success = await signInWithGoogle();
       if (success) {
-        toast.success('Signed in with Google!');
         navigate('/dashboard');
       }
-    } catch (error) {
-      toast.error('Google sign-in failed');
+    } catch (error: any) {
+      // Error handled by context
     }
   };
 

@@ -296,7 +296,7 @@ function AppContent() {
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-      <Toaster position="top-right" />
+      <Toaster position="bottom-right" richColors closeButton />
     </Router>
   );
 }

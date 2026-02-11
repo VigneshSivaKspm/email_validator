@@ -70,13 +70,10 @@ export const SignupPage = () => {
     try {
       const success = await signup(name, email, password);
       if (success) {
-        toast.success('Account created successfully!');
         navigate('/dashboard');
-      } else {
-        toast.error('Email already exists');
       }
-    } catch (error) {
-      toast.error('An error occurred. Please try again.');
+    } catch (error: any) {
+      // Error handled by context
     } finally {
       setLoading(false);
     }

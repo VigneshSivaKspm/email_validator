@@ -254,7 +254,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     } catch (error: any) {
       const errorMessage = error.code === 'auth/email-already-in-use'
         ? 'Email already in use'
-        : 'Failed to create account';
+        : error.message || 'Failed to create account';
       toast.error(errorMessage);
       console.error('Signup error:', error);
       return false;
@@ -289,7 +289,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     } catch (error: any) {
       const errorMessage = error.code === 'auth/invalid-credential'
         ? 'Invalid email or password'
-        : 'Failed to login';
+        : error.message || 'Failed to login';
       toast.error(errorMessage);
       console.error('Login error:', error);
       return false;
@@ -322,7 +322,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       toast.success('Logged in with Google successfully!');
       return true;
     } catch (error: any) {
-      toast.error('Failed to login with Google');
+      toast.error(error.message || 'Failed to login with Google');
       console.error('Google login error:', error);
       return false;
     }
@@ -336,8 +336,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       setVerificationHistory([]);
       setBulkUploads([]);
       toast.success('Logged out successfully!');
-    } catch (error) {
-      toast.error('Failed to logout');
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to logout');
       console.error('Logout error:', error);
     }
   };

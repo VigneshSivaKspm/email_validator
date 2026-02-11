@@ -34,8 +34,8 @@ export const BulkUploadPage = () => {
       const upload = await uploadBulkFile(selectedFile);
       toast.success('File uploaded successfully!');
       navigate(`/dashboard/bulk/process/${upload.id}`);
-    } catch (error) {
-      toast.error('Failed to upload file');
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to upload file');
     } finally {
       setUploading(false);
     }
