@@ -39,14 +39,14 @@ export const LandingPage = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Link to="/signup" className="w-full sm:w-auto">
-                <Button size="lg" className="w-full bg-[#2563EB] hover:bg-[#1E3A8A] text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all">
+                <Button size="lg" className="w-full bg-[#2563EB] !text-white hover:bg-[#2563EB] text-lg px-8 py-6 shadow-lg active:scale-95 transition-all">
                   Start Free Trial
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </Link>
-              <Link to="/pricing" className="w-full sm:w-auto">
-                <Button size="lg" variant="outline" className="w-full text-lg px-8 py-6 border-[#E5E7EB] hover:bg-gray-50 transition-all">
-                  View Pricing
+              <Link to="/docs" className="w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="w-full border-2 border-[#2563EB] text-[#2563EB] hover:bg-blue-50 text-lg px-8 py-6 active:scale-95 transition-all">
+                  View Documentation
                 </Button>
               </Link>
             </div>
@@ -292,17 +292,23 @@ export const LandingPage = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/signup">
-                <Button size="lg" className="bg-white text-[#2563EB] hover:bg-gray-100 text-lg px-8 py-6 shadow-xl">
-                  Start Free Trial
-                  <ArrowRight className="ml-2 w-5 h-5" />
+                <Button 
+                  size="lg" 
+                  variant="outline"
+                  className="bg-white text-[#2563EB] hover:bg-white hover:text-[#2563EB] text-lg px-8 py-6 shadow-xl w-full sm:w-auto border-none active:scale-95 transition-transform"
+                >
+                  <span className="text-[#2563EB]">Start Free Trial</span>
+                  <ArrowRight className="w-5 h-5 text-[#2563EB]" />
                 </Button>
               </Link>
               <Link to="/docs">
                 <Button 
                   size="lg" 
-                  className="bg-white text-[#2563EB] hover:bg-gray-100 text-lg px-8 py-6 shadow-xl"
+                  variant="outline"
+                  className="bg-white text-[#2563EB] hover:bg-white hover:text-[#2563EB] text-lg px-8 py-6 shadow-xl w-full sm:w-auto border-none active:scale-95 transition-transform"
                 >
-                  View Documentation
+                  <span className="text-[#2563EB]">View Documentation</span>
+                  <ArrowRight className="w-5 h-5 text-[#2563EB]" />
                 </Button>
               </Link>
             </div>

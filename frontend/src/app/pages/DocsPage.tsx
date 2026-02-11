@@ -182,7 +182,11 @@ export const DocsPage = () => {
               <p className="text-blue-100 mb-6 text-base sm:text-lg relative z-10">
                 Our support team is here to help you 24/7
               </p>
-              <Button size="lg" className="w-full sm:w-auto bg-white text-[#2563EB] hover:bg-gray-100 relative z-10">
+              <Button 
+                size="lg" 
+                variant="outline"
+                className="w-full sm:w-auto bg-white text-[#2563EB] hover:bg-white border-none relative z-10 font-bold"
+              >
                 Contact Support
               </Button>
               <p className="text-sm text-blue-100 mt-4 relative z-10">
