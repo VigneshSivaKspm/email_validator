@@ -182,13 +182,11 @@ export const DocsPage = () => {
               <p className="text-blue-100 mb-6 text-base sm:text-lg relative z-10">
                 Our support team is here to help you 24/7
               </p>
-              <Button 
-                size="lg" 
-                variant="outline"
-                className="w-full sm:w-auto bg-white text-[#2563EB] hover:bg-white border-none relative z-10 font-bold"
+              <button 
+                className="w-full sm:w-auto bg-white text-[#2563EB] text-base sm:text-lg px-6 py-4 sm:px-8 sm:py-5 shadow-xl rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-blue-50 hover:shadow-2xl hover:-translate-y-1 active:scale-95 transition-all relative z-10"
               >
                 Contact Support
-              </Button>
+              </button>
               <p className="text-sm text-blue-100 mt-4 relative z-10">
                 Email: support@verifymail.com
               </p>

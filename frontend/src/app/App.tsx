@@ -88,6 +88,7 @@ const PublicLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
+      <div className="h-20 sm:h-24"></div>
       <main className="flex-1">{children}</main>
       <Footer />
     </div>

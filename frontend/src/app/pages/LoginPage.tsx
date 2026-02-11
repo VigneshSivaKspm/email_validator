@@ -143,7 +143,7 @@ export const LoginPage = () => {
               <Button
                 type="button"
                 variant="outline"
-                className="w-full border-[#E5E7EB] hover:bg-gray-50"
+                className="w-full border-[#E5E7EB] hover:bg-gray-50 !text-[#2563EB]"
                 size="lg"
                 onClick={handleGoogleSignIn}
                 data-aos="fade-up"

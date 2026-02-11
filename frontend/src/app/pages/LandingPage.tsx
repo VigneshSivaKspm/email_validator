@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
 import { 
   CheckCircle2, 
@@ -39,24 +38,28 @@ export const LandingPage = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Link to="/signup" className="w-full sm:w-auto">
-                <Button size="lg" className="w-full bg-[#2563EB] !text-white hover:bg-[#2563EB] text-lg px-8 py-6 shadow-lg active:scale-95 transition-all">
+                <button 
+                  className="w-full bg-[#2563EB] text-white text-base sm:text-lg px-6 py-4 sm:px-8 sm:py-5 shadow-lg hover:shadow-2xl hover:-translate-y-1 active:scale-95 transition-all rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-[#1E40AF]"
+                >
                   Start Free Trial
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
+                  <ArrowRight className="w-5 h-5" />
+                </button>
               </Link>
               <Link to="/docs" className="w-full sm:w-auto">
-                <Button size="lg" variant="outline" className="w-full border-2 border-[#2563EB] text-[#2563EB] hover:bg-blue-50 text-lg px-8 py-6 active:scale-95 transition-all">
+                <button 
+                  className="w-full bg-white border-2 border-[#2563EB] text-[#2563EB] text-base sm:text-lg px-6 py-4 sm:px-8 sm:py-5 active:scale-95 transition-all rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-blue-50 hover:shadow-xl hover:-translate-y-1"
+                >
                   View Documentation
-                </Button>
+                </button>
               </Link>
             </div>
           </div>
           <div className="relative" data-aos="zoom-in" data-aos-delay="200">
-            <div className="absolute inset-0 bg-gradient-to-r from-[#2563EB] to-[#1E3A8A] rounded-3xl blur-3xl opacity-20"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-[#2563EB] to-[#1E40AF] rounded-3xl blur-[100px] opacity-20 animate-pulse"></div>
             <ImageWithFallback
               src="https://images.unsplash.com/photo-1763568258367-1c52beb60be7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbWFpbCUyMG1hcmtldGluZyUyMHByb2Zlc3Npb25hbCUyMHdvcmtzcGFjZXxlbnwxfHx8fDE3NzA2NTg0OTB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
               alt="Email Verification Dashboard"
-              className="relative rounded-2xl shadow-2xl w-full transform hover:scale-[1.02] transition-transform duration-500"
+              className="relative rounded-2xl shadow-[0_32px_64px_-16px_rgba(37,99,235,0.25)] w-full transform hover:scale-[1.02] transition-all duration-700 ease-out border border-[#E5E7EB]"
             />
           </div>
         </div>
@@ -138,13 +141,13 @@ export const LandingPage = () => {
             };
 
             return (
-              <Card key={index} className="border-[#E5E7EB] border-opacity-50 hover:shadow-[0_20px_50px_rgba(37,99,235,0.1)] transition-all hover:-translate-y-2 group" data-aos="fade-up" data-aos-delay={index * 50}>
+              <Card key={index} className="border-[#E5E7EB] border-opacity-50 hover:shadow-[0_20px_50px_rgba(37,99,235,0.1)] transition-all duration-300 hover:-translate-y-2 group cursor-default" data-aos="fade-up" data-aos-delay={index * 50}>
                 <CardContent className="p-8">
-                  <div className={`w-14 h-14 rounded-2xl ${colorClasses[feature.color as keyof typeof colorClasses]} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
+                  <div className={`w-14 h-14 rounded-2xl ${colorClasses[feature.color as keyof typeof colorClasses]} flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-sm group-hover:shadow-md`}>
                     <Icon className="w-7 h-7" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
-                  <p className="text-gray-600 leading-relaxed text-sm">{feature.description}</p>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-[#2563EB] transition-colors">{feature.title}</h3>
+                  <p className="text-gray-600 leading-relaxed text-sm group-hover:text-gray-900 transition-colors">{feature.description}</p>
                 </CardContent>
               </Card>
             );
@@ -183,13 +186,13 @@ export const LandingPage = () => {
                 { step: '06', title: 'Security', icon: Shield, desc: 'Breach Check', animation: 'fade-up' },
                 { step: '07', title: 'Score', icon: Star, desc: 'Final AI Score', animation: 'fade-up' },
               ].map((item, i) => (
-                <div key={i} className="flex flex-col items-center text-center group" data-aos={item.animation} data-aos-delay={i * 100}>
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-blue-400 mb-4 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 transition-all duration-300 relative z-20 shadow-xl">
+                <div key={i} className="flex flex-col items-center text-center group cursor-default" data-aos={item.animation} data-aos-delay={i * 100}>
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-blue-400 mb-4 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500 relative z-20 shadow-xl group-hover:shadow-[0_0_30px_rgba(37,99,235,0.3)]">
                     <item.icon className="w-8 h-8 sm:w-10 sm:h-10" />
-                    <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full border border-slate-900">{item.step}</span>
+                    <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full border border-slate-900 group-hover:scale-110 transition-transform">{item.step}</span>
                   </div>
-                  <h4 className="text-white font-bold mb-1 text-sm sm:text-base">{item.title}</h4>
-                  <p className="text-slate-500 text-[10px] sm:text-xs">{item.desc}</p>
+                  <h4 className="text-white font-bold mb-1 text-sm sm:text-base group-hover:text-blue-400 transition-colors">{item.title}</h4>
+                  <p className="text-slate-500 text-[10px] sm:text-xs group-hover:text-slate-300 transition-colors">{item.desc}</p>
                 </div>
               ))}
             </div>
@@ -281,7 +284,7 @@ export const LandingPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-0">
         <Card className="bg-gradient-to-r from-[#2563EB] to-[#1E3A8A] border-none shadow-2xl" data-aos="flip-up">
           <CardContent className="p-12 lg:p-16 text-center">
             <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
@@ -292,24 +295,20 @@ export const LandingPage = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/signup">
-                <Button 
-                  size="lg" 
-                  variant="outline"
-                  className="bg-white text-[#2563EB] hover:bg-white hover:text-[#2563EB] text-lg px-8 py-6 shadow-xl w-full sm:w-auto border-none active:scale-95 transition-transform"
+                <button 
+                  className="bg-white text-[#2563EB] text-base sm:text-lg px-6 py-4 sm:px-8 sm:py-5 shadow-xl w-full sm:w-auto rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-blue-50 hover:shadow-2xl hover:-translate-y-1 active:scale-95 transition-all"
                 >
-                  <span className="text-[#2563EB]">Start Free Trial</span>
-                  <ArrowRight className="w-5 h-5 text-[#2563EB]" />
-                </Button>
+                  Start Free Trial
+                  <ArrowRight className="w-5 h-5" />
+                </button>
               </Link>
               <Link to="/docs">
-                <Button 
-                  size="lg" 
-                  variant="outline"
-                  className="bg-white text-[#2563EB] hover:bg-white hover:text-[#2563EB] text-lg px-8 py-6 shadow-xl w-full sm:w-auto border-none active:scale-95 transition-transform"
+                <button 
+                  className="bg-white text-[#2563EB] text-base sm:text-lg px-6 py-4 sm:px-8 sm:py-5 shadow-xl w-full sm:w-auto rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-blue-50 hover:shadow-2xl hover:-translate-y-1 active:scale-95 transition-all"
                 >
-                  <span className="text-[#2563EB]">View Documentation</span>
-                  <ArrowRight className="w-5 h-5 text-[#2563EB]" />
-                </Button>
+                  View Documentation
+                  <ArrowRight className="w-5 h-5" />
+                </button>
               </Link>
             </div>
           </CardContent>

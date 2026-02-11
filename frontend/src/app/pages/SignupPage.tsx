@@ -235,7 +235,7 @@ export const SignupPage = () => {
               <Button
                 type="button"
                 variant="outline"
-                className="w-full border-[#E5E7EB] hover:bg-gray-50"
+                className="w-full border-[#E5E7EB] hover:bg-gray-50 !text-[#2563EB]"
                 size="lg"
                 onClick={async () => {
                   try {

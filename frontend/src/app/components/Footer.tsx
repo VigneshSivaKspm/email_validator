@@ -4,11 +4,11 @@ import { ShieldCheck, Mail, Twitter, Linkedin, Github } from 'lucide-react';
 
 export const Footer = () => {
   return (
-    <footer className="bg-white border-t border-[#E5E7EB] mt-auto overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <footer className="bg-white border-t border-[#E5E7EB] mt-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
-          <div className="col-span-1" data-aos="fade-right">
+          <div className="col-span-1">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-10 h-10 bg-gradient-to-br from-[#2563EB] to-[#1E3A8A] rounded-xl flex items-center justify-center">
                 <ShieldCheck className="w-6 h-6 text-white" />
@@ -32,7 +32,7 @@ export const Footer = () => {
           </div>
 
           {/* Product */}
-          <div data-aos="fade-up" data-aos-delay="100">
+          <div>
             <h3 className="font-semibold text-gray-900 mb-4">Product</h3>
             <ul className="space-y-3 text-sm">
               <li>
@@ -63,7 +63,7 @@ export const Footer = () => {
           </div>
 
           {/* Company */}
-          <div data-aos="fade-up" data-aos-delay="200">
+          <div>
             <h3 className="font-semibold text-gray-900 mb-4">Company</h3>
             <ul className="space-y-3 text-sm">
               <li>
@@ -94,7 +94,7 @@ export const Footer = () => {
           </div>
 
           {/* Legal */}
-          <div data-aos="fade-left" data-aos-delay="300">
+          <div>
             <h3 className="font-semibold text-gray-900 mb-4">Legal</h3>
             <ul className="space-y-3 text-sm">
               <li>
@@ -125,7 +125,7 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-[#E5E7EB] mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4" data-aos="fade-up">
+        <div className="border-t border-[#E5E7EB] mt-8 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-gray-600">
             © 2026 VerifyMail. All rights reserved.
           </p>
