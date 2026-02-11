@@ -68,14 +68,8 @@ app.post('/api/validate', async (req, res) => {
     // Use built-in validator if available
     if (validate && typeof validate === 'function') {
       const result = await validate(email);
-      return res.json({
-        email,
-        is_valid: result.isValid,
-        is_risky: result.isRisky || false,
-        is_disposable: result.isDisposable,
-        is_role: result.isRole,
-        ...result
-      });
+      // Return the consolidated result
+      return res.json(result);
     }
 
     // Fallback: Use Disify API
@@ -85,12 +79,17 @@ app.post('/api/validate', async (req, res) => {
     });
 
     res.json({
-      email,
-      is_valid: disifyRes.data.format && !disifyRes.data.disposable && disifyRes.data.dns,
-      is_risky: false,
-      is_disposable: disifyRes.data.disposable,
-      is_role: false,
-      format: disifyRes.data
+      valid: disifyRes.data.format && !disifyRes.data.disposable && disifyRes.data.dns,
+      disposable: disifyRes.data.disposable,
+      role: false,
+      accept_all: false,
+      security_score: disifyRes.data.dns ? 70 : 10,
+      validators: {
+        regex: { valid: disifyRes.data.format },
+        mx: { valid: disifyRes.data.dns },
+        disposable: { valid: !disifyRes.data.disposable }
+      },
+      reason: disifyRes.data.disposable ? 'disposable' : (!disifyRes.data.dns ? 'mx' : undefined)
     });
   } catch (error) {
     console.error('Validation error:', error.message);
