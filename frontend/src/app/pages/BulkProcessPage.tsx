@@ -209,18 +209,6 @@ export const BulkProcessPage = () => {
         </Card>
       </div>
 
-      {/* Action Button */}
-      {!processing && results.length === totalInFile && (
-        <div className="flex justify-center">
-          <Button
-            size="lg"
-            onClick={() => navigate(`/dashboard/bulk/results/${id}`)}
-            className="bg-[#2563EB] hover:bg-[#1E3A8A]"
-          >
-            View Detailed Results
-          </Button>
-        </div>
-      )}
     </div>
   );
 };

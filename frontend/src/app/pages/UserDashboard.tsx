@@ -130,27 +130,49 @@ export const UserDashboard = () => {
       </div>
 
       {/* Quick Actions */}
-      <Card className="border-[#E5E7EB]" data-aos="fade-up" data-aos-delay="300">
-        <CardHeader>
-          <CardTitle>Quick Actions</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Link to="/dashboard/verify" className="block transform hover:scale-[1.02] transition-transform duration-200">
-              <Button className="w-full h-20 bg-[#2563EB] hover:bg-[#1E3A8A] text-lg">
-                <Mail className="w-6 h-6 mr-3" />
-                Verify Single Email
-              </Button>
-            </Link>
-            <Link to="/dashboard/bulk" className="block transform hover:scale-[1.02] transition-transform duration-200">
-              <Button variant="outline" className="w-full h-20 border-[#E5E7EB] text-lg">
-                <Upload className="w-6 h-6 mr-3" />
-                Upload Bulk List
-              </Button>
-            </Link>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6" data-aos="fade-up" data-aos-delay="300">
+        <Link 
+          to="/dashboard/verify" 
+          className="group relative overflow-hidden bg-white p-6 sm:p-8 rounded-2xl border border-[#E5E7EB] hover:border-[#2563EB] shadow-sm hover:shadow-xl transition-all duration-300"
+        >
+          <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+            <Mail className="w-24 h-24 text-[#2563EB]" />
           </div>
-        </CardContent>
-      </Card>
+          <div className="relative z-10 flex flex-col h-full gap-4">
+            <div className="w-12 h-12 bg-blue-50 text-[#2563EB] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+              <Mail className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-[#1E3A8A] mb-1">Verify Single Email</h3>
+              <p className="text-gray-500 text-sm">Real-time deep technical analysis of any email address.</p>
+            </div>
+            <div className="mt-auto pt-4 flex items-center text-[#2563EB] font-bold text-sm">
+              Start verifying <TrendingUp className="w-4 h-4 ml-2" />
+            </div>
+          </div>
+        </Link>
+
+        <Link 
+          to="/dashboard/bulk" 
+          className="group relative overflow-hidden bg-[#1E3A8A] p-6 sm:p-8 rounded-2xl border border-blue-900 shadow-xl hover:shadow-2xl transition-all duration-300 text-white"
+        >
+          <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+            <Upload className="w-24 h-24 text-white" />
+          </div>
+          <div className="relative z-10 flex flex-col h-full gap-4">
+            <div className="w-12 h-12 bg-white/10 text-white rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform backdrop-blur-sm">
+              <Upload className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold mb-1 text-white">Upload Bulk List</h3>
+              <p className="text-blue-200 text-sm">Clean thousands of emails at once with high-speed processing.</p>
+            </div>
+            <div className="mt-auto pt-4 flex items-center text-blue-200 font-bold text-sm">
+              Clean your list <TrendingUp className="w-4 h-4 ml-2" />
+            </div>
+          </div>
+        </Link>
+      </div>
 
       {/* Recent Activity */}
       <Card className="border-[#E5E7EB]" data-aos="fade-up" data-aos-delay="400">

@@ -278,6 +278,3 @@ contact@web.com`}
     </div>
   );
 };
-    </div>
-  );
-};
