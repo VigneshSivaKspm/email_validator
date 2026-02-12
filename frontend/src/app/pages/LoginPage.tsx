@@ -7,7 +7,6 @@ import { Label } from '../components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Checkbox } from '../components/ui/checkbox';
 import { ShieldCheck, Mail, Lock } from 'lucide-react';
-import { toast } from 'sonner';
 
 export const LoginPage = () => {
   const navigate = useNavigate();

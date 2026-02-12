@@ -10,7 +10,7 @@ interface FileUploadProps {
 
 export const FileUpload: React.FC<FileUploadProps> = ({ 
   onFileSelect, 
-  accept = '.csv,.xlsx,.xls',
+  accept = '.csv,.xlsx,.xls,.txt',
   maxSize = 10 
 }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -80,9 +80,9 @@ export const FileUpload: React.FC<FileUploadProps> = ({
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         className={`
-          border-2 border-dashed rounded-2xl p-12 text-center transition-all
+          border-2 border-dashed rounded-2xl p-6 sm:p-12 text-center transition-all
           ${isDragging ? 'border-primary bg-accent' : 'border-border'}
-          ${selectedFile ? 'bg-accent' : 'bg-card'}
+          ${selectedFile ? 'bg-accent border-primary/50' : 'border-slate-200 bg-white shadow-inner'}
         `}
       >
         {!selectedFile ? (

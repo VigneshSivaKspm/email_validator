@@ -10,42 +10,31 @@ import { toast } from 'sonner';
 export const BulkProcessPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { bulkUploads, verifyEmail } = useApp();
+  const { bulkUploads, verifyEmail, updateBulkStatus } = useApp();
   const [processing, setProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
   const [results, setResults] = useState<EmailVerification[]>([]);
 
   const upload = bulkUploads.find(u => u.id === id);
 
-  // Mock email list from file
-  const mockEmails = [
-    'john.doe@gmail.com',
-    'invalid.email@',
-    'admin@company.com',
-    'test@tempmail.com',
-    'sarah@example.com',
-    'support@business.org',
-    'user@fakeemail.xyz',
-    'mary.smith@outlook.com',
-    'noreply@service.com',
-    'contact@startup.io',
-  ];
-
   const processEmails = async () => {
+    if (!upload || !upload.emails || upload.emails.length === 0) {
+      toast.error('No emails found to process');
+      return;
+    }
+
     setProcessing(true);
     const emailResults: EmailVerification[] = [];
+    const emailsToProcess = upload.emails;
 
-    for (let i = 0; i < mockEmails.length; i++) {
-      const email = mockEmails[i];
-      
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 500));
+    for (let i = 0; i < emailsToProcess.length; i++) {
+      const email = emailsToProcess[i];
       
       try {
         const result = await verifyEmail(email);
         emailResults.push(result);
         setResults([...emailResults]);
-        setProgress(((i + 1) / mockEmails.length) * 100);
+        setProgress(((i + 1) / emailsToProcess.length) * 100);
       } catch (error) {
         console.error('Error verifying:', email);
       }
@@ -53,6 +42,26 @@ export const BulkProcessPage = () => {
 
     setProcessing(false);
     toast.success('Bulk verification completed!');
+    
+    // Save results to Firestore
+    const validCount = emailResults.filter(r => r.status === 'valid').length;
+    const invalidCount = emailResults.filter(r => r.status === 'invalid').length;
+    const riskyCount = emailResults.filter(r => r.status === 'risky').length;
+    const unknownCount = emailResults.filter(r => r.status === 'unknown').length;
+
+    try {
+      await updateBulkStatus(upload.id, {
+        status: 'completed',
+        processed: emailResults.length,
+        validCount,
+        invalidCount,
+        riskyCount,
+        unknownCount,
+        results: emailResults
+      });
+    } catch (err) {
+      console.error('Failed to save bulk results:', err);
+    }
   };
 
   useEffect(() => {
@@ -76,6 +85,7 @@ export const BulkProcessPage = () => {
   const invalidCount = results.filter(r => r.status === 'invalid').length;
   const riskyCount = results.filter(r => r.status === 'risky').length;
   const unknownCount = results.filter(r => r.status === 'unknown').length;
+  const totalInFile = upload?.emails?.length || 0;
 
   return (
     <div className="p-4 sm:p-8 max-w-6xl mx-auto space-y-6 sm:space-y-8">
@@ -83,7 +93,7 @@ export const BulkProcessPage = () => {
       <div>
         <h1 className="text-2xl sm:text-3xl font-bold mb-2 text-[#1E3A8A]">Processing: {upload.filename}</h1>
         <p className="text-gray-600 text-sm sm:text-base">
-          Verifying {mockEmails.length} email addresses
+          Verifying {totalInFile} email addresses
         </p>
       </div>
 
@@ -119,12 +129,12 @@ export const BulkProcessPage = () => {
             </div>
             <div className="text-center p-4 rounded-lg bg-accent/30">
               <div className="text-2xl font-bold text-gray-900">
-                {mockEmails.length - results.length}
+                {totalInFile - results.length}
               </div>
               <div className="text-sm text-muted-foreground">Remaining</div>
             </div>
             <div className="text-center p-4 rounded-lg bg-accent/30">
-              <div className="text-2xl font-bold text-gray-900">{mockEmails.length}</div>
+              <div className="text-2xl font-bold text-gray-900">{totalInFile}</div>
               <div className="text-sm text-muted-foreground">Total</div>
             </div>
             <div className="text-center p-4 rounded-lg bg-accent/30">
@@ -134,6 +144,17 @@ export const BulkProcessPage = () => {
               <div className="text-sm text-muted-foreground">Success Rate</div>
             </div>
           </div>
+
+          {!processing && results.length > 0 && (
+            <div className="pt-6 flex justify-center">
+              <Button 
+                onClick={() => navigate(`/dashboard/bulk/results/${id}`)}
+                className="bg-[#2563EB] hover:bg-[#1E3A8A] text-white px-8 py-6 text-lg rounded-xl shadow-lg shadow-blue-500/20"
+              >
+                View Detailed Results
+              </Button>
+            </div>
+          )}
         </CardContent>
       </Card>
 
@@ -189,7 +210,7 @@ export const BulkProcessPage = () => {
       </div>
 
       {/* Action Button */}
-      {!processing && results.length === mockEmails.length && (
+      {!processing && results.length === totalInFile && (
         <div className="flex justify-center">
           <Button
             size="lg"

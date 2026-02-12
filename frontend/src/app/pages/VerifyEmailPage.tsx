@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import { Card, CardContent } from '../components/ui/card';
 import { EmailInput } from '../components/EmailInput';
 import { VerificationResult } from '../components/VerificationResult';
 import { EmailVerification } from '../context/AppContext';
@@ -35,29 +35,32 @@ export const VerifyEmailPage = () => {
   };
 
   return (
-    <div className="p-4 sm:p-8 max-w-4xl mx-auto space-y-6 sm:space-y-8">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl sm:text-3xl font-bold mb-2 text-[#1E3A8A]">Single Email Verification</h1>
-        <p className="text-gray-600 text-sm sm:text-base">
-          Verify individual email addresses in real-time with detailed results
+      <div className="space-y-1">
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#1E3A8A]">Single Email Verification</h1>
+        <p className="text-gray-500 text-sm sm:text-base">
+          Verify individual email addresses in real-time with technical insights.
         </p>
       </div>
 
       {/* Verification Input */}
-      <Card className="border-[#E5E7EB]">
-        <CardHeader>
-          <CardTitle>Enter Email to Verify</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <Card className="border-[#E5E7EB] shadow-sm overflow-hidden">
+        <div className="bg-[#F8FAFC] px-6 py-3 border-b border-[#E5E7EB]">
+          <h3 className="text-sm font-semibold text-[#1E3A8A] uppercase tracking-wider">Verification Tool</h3>
+        </div>
+        <CardContent className="p-6">
           <EmailInput onVerify={handleVerify} loading={loading} />
         </CardContent>
       </Card>
 
       {/* Result */}
       {result && (
-        <div className="space-y-4">
-          <h2 className="text-2xl">Verification Result</h2>
+        <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="flex items-center gap-2 px-1">
+            <div className="h-1 w-6 bg-[#2563EB] rounded-full"></div>
+            <h2 className="text-lg font-bold text-gray-800 uppercase tracking-tight">Full Report</h2>
+          </div>
           <VerificationResult result={result} />
         </div>
       )}

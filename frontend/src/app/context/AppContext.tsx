@@ -68,6 +68,7 @@ export interface BulkUpload {
   uploadedAt: Date;
   userId: string;
   fileUrl?: string;
+  emails?: string[];
   results: EmailVerification[];
 }
 
@@ -82,8 +83,9 @@ interface AppContextType {
   verifyEmail: (email: string) => Promise<EmailVerification>;
   verificationHistory: EmailVerification[];
   bulkUploads: BulkUpload[];
-  uploadBulkFile: (file: File) => Promise<BulkUpload>;
+  uploadBulkFile: (file: File, extractedEmails: string[]) => Promise<BulkUpload>;
   processBulkUpload: (uploadId: string, emails: string[]) => Promise<void>;
+  updateBulkStatus: (uploadId: string, updates: Partial<BulkUpload>) => Promise<void>;
   allUsers: User[];
   allVerifications: EmailVerification[];
 }
@@ -361,23 +363,25 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       const validatorResult = response.data;
 
       // Map validator result to our EmailVerification format
+      // Use logical defaults to avoid 'undefined' values which Firebase rejects
+      const isRisky = ['risky', 'suspicious', 'compromised'].includes(validatorResult.domainStatus);
+      
       const verification: EmailVerification = {
-        id: `ver-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        id: `ver-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`,
         email,
-        status: validatorResult.is_valid ? 'valid' : (validatorResult.is_risky ? 'risky' : 'invalid'),
-        formatValid: validatorResult.is_valid || validatorResult.format?.is_valid,
-        domainExists: validatorResult.domain?.mx_records?.length > 0,
-        mxRecordFound: validatorResult.domain?.mx_records?.length > 0,
-        disposable: validatorResult.is_disposable,
-        roleBased: validatorResult.is_role,
-        catchAll: validatorResult.domain?.accepts_all,
-        reason: validatorResult.validators?.length > 0
-          ? validatorResult.validators
-              .filter((v: any) => !v.valid)
-              .map((v: any) => v.reason)
-              .join('; ') || 'Verification completed'
-          : 'All checks passed',
-        confidence: Math.round((validatorResult.smtp?.score || 0.75) * 100),
+        status: validatorResult.valid ? 'valid' : (isRisky ? 'risky' : 'invalid'),
+        formatValid: validatorResult.validators?.regex?.valid ?? true,
+        domainExists: !!validatorResult.mx_record,
+        mxRecordFound: !!validatorResult.mx_record,
+        disposable: !!validatorResult.disposable,
+        roleBased: !!validatorResult.role,
+        catchAll: !!validatorResult.accept_all,
+        reason: validatorResult.valid 
+          ? 'All checks passed' 
+          : (validatorResult.reason && validatorResult.validators?.[validatorResult.reason]
+              ? `${validatorResult.reason}: ${validatorResult.validators[validatorResult.reason].reason}`
+              : 'Verification failed'),
+        confidence: validatorResult.security_score ?? 75,
         timestamp: new Date(),
         userId: user.id,
       };
@@ -410,7 +414,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // Upload bulk file to Firebase Storage
-  const uploadBulkFile = async (file: File): Promise<BulkUpload> => {
+  const uploadBulkFile = async (file: File, extractedEmails?: string[]): Promise<BulkUpload> => {
     if (!user) {
       throw new Error('User not authenticated');
     }
@@ -424,10 +428,12 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       await uploadBytes(storageRef, file);
       const fileUrl = await getDownloadURL(storageRef);
 
+      const totalEmails = extractedEmails?.length || 0;
+
       // Create bulk upload document in Firestore
       const bulkDocRef = await addDoc(collection(db, 'bulkUploads'), {
         filename: file.name,
-        totalEmails: 0,
+        totalEmails,
         processed: 0,
         validCount: 0,
         invalidCount: 0,
@@ -437,13 +443,14 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         uploadedAt: Timestamp.now(),
         userId: user.id,
         fileUrl,
+        emails: extractedEmails || [],
         results: [],
       });
 
       const newUpload: BulkUpload = {
         id: bulkDocRef.id,
         filename: file.name,
-        totalEmails: 0,
+        totalEmails,
         processed: 0,
         validCount: 0,
         invalidCount: 0,
@@ -453,6 +460,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         uploadedAt: new Date(),
         userId: user.id,
         fileUrl,
+        emails: extractedEmails || [],
         results: [],
       };
 
@@ -555,6 +563,20 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const updateBulkStatus = async (uploadId: string, updates: Partial<BulkUpload>) => {
+    try {
+      const uploadRef = doc(db, 'bulkUploads', uploadId);
+      const firestoreUpdates = { ...updates };
+      delete (firestoreUpdates as any).id;
+      
+      await updateDoc(uploadRef, firestoreUpdates as any);
+      
+      setBulkUploads(prev => prev.map(u => u.id === uploadId ? { ...u, ...updates } : u));
+    } catch (error) {
+      console.error('Error updating bulk status:', error);
+    }
+  };
+
   const value: AppContextType = {
     user,
     isAuthenticated: !!user,
@@ -568,6 +590,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     bulkUploads,
     uploadBulkFile,
     processBulkUpload,
+    updateBulkStatus,
     allUsers,
     allVerifications,
   };
