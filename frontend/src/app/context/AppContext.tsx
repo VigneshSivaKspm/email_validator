@@ -419,6 +419,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       throw new Error('User not authenticated');
     }
 
+    let fileUrl = '';
     try {
       // Upload file to Firebase Storage
       const storageRef = ref(
@@ -426,8 +427,16 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         `bulk-uploads/${user.id}/${Date.now()}-${file.name}`
       );
       await uploadBytes(storageRef, file);
-      const fileUrl = await getDownloadURL(storageRef);
+      fileUrl = await getDownloadURL(storageRef);
+    } catch (error: any) {
+      console.error('Firebase Storage Error (CORS or permissions):', error);
+      // If it's a CORS error, we'll still proceed since we have the emails parsed
+      // This allows the user to continue while they fix their Firebase CORS settings
+      toast.warning('Storage upload blocked by CORS. Processing from memory instead.');
+      console.warn('Proceeding without raw file storage. Check Firebase Storage CORS settings.');
+    }
 
+    try {
       const totalEmails = extractedEmails?.length || 0;
 
       // Create bulk upload document in Firestore
